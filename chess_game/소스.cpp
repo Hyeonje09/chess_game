@@ -361,8 +361,8 @@ void chessman() {
 
 void display(void)
 {
-	GLfloat camx = 100, camy = 100, camz = 100;
-	GLfloat cam2x = 20, cam2y = 20, cam2z = 20;
+	GLfloat camx = 10, camy = 10, camz = 10;
+	GLfloat cam2x = 2, cam2y = 0, cam2z = 2;
 	GLfloat cam_upx = 0, cam_upy = 1, cam_upz = 0;
 
 	glClearColor(0.7, 0.9, 0.96, 0.0);
@@ -405,6 +405,7 @@ void display(void)
 
 	glPushMatrix();
 	glTranslatef(moveW, 0.0, 0.0);
+	glScalef(0.05, 0.05, 0.05);
 	chessman();
 	glPopMatrix();
 
