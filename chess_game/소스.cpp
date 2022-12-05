@@ -10,10 +10,110 @@
 using namespace std;
 
 #define	PI	3.1415926
-#define	No_T	50
-#define No_P	50 
 
-float moveW = 0.0;
+float	theta, phi;
+
+float	camera_radius;
+
+float	moveX, moveY;
+
+float	moveW = 0.0;
+
+//********************* Material Data ****************//
+typedef struct materialStruct {
+	GLfloat	ambient[4];
+	GLfloat	diffuse[4];
+	GLfloat	specular[4];
+	GLfloat	shininess;
+}materialStruct;
+
+materialStruct brassMaterials = {
+	{0.33, 0.22, 0.03, 0.5},
+	{0.78, 0.57, 0.11, 0.5},
+	{0.99, 0.91, 0.81, 0.5},
+	1.0
+};
+
+materialStruct whitePlasticMaterials = {
+	{0.5, 0.5, 0.5, 0.0},
+	{0.5, 0.5, 0.5, 0.0},
+	{0.9, 0.9, 0.9, 0.0},
+	5.0
+};
+materialStruct blackPlasticMaterials = {
+	{0.0, 0.0, 0.0, 0.0},
+	{0.0, 0.0, 0.0, 0.0},
+	{0.1, 0.1, 0.1, 0.0},
+	5.0
+};
+materialStruct redPlasticMaterials = {
+	{0.3, 0.0, 0.0, 0.0},
+	{0.6, 0.0, 0.0, 0.0},
+	{0.8, 0.6, 0.6, 0.0},
+	5.0
+};
+
+materialStruct greenPlasticMaterials = {
+	{0.0, 0.3, 0.0, 0.0},
+	{0.0, 0.6, 0.0, 0.0},
+	{0.6, 0.8, 0.6, 0.0},
+	5.0
+};
+
+materialStruct bluePlasticMaterials = {
+	{0.0, 0.0, 0.3, 0.0},
+	{0.0, 0.0, 0.6, 0.0},
+	{0.6, 0.6, 0.8, 0.0},
+	5.0
+};
+
+materialStruct yellowPlasticMaterials = {
+	{0.3, 0.3, 0.0, 0.0},
+	{0.6, 0.6, 0.0, 0.0},
+	{0.8, 0.8, 0.8, 0.0},
+	5.0
+};
+
+
+materialStruct whiteShineyMaterials = {
+	{1.0, 1.0, 1.0, 1.0},
+	{1.0, 1.0, 1.0, 1.0},
+	{1.0, 1.0, 1.0, 1.0},
+	10.0
+};
+
+
+
+//********************* Light Data ****************//
+typedef struct lightingStruct {
+	GLfloat	ambient[4];
+	GLfloat	diffuse[4];
+	GLfloat	specular[4];
+	GLfloat	position[4];
+	GLfloat cutoff;
+	GLfloat	exponent;
+}lightingStruct;
+
+lightingStruct whiteLighting = {
+	{0.0, 0.0, 0.0, 1.0},
+	{1.0, 1.0, 1.0, 1.0},
+	{1.0, 1.0, 1.0, 1.0},
+	{0.0, 0.0, 10.0, 1.0},
+	40.0,
+	80.0
+};
+
+lightingStruct coloredLighting = {
+	{1.0, 0.0, 0.0, 1.0},
+	{1.0, 1.0, 0.0, 1.0},
+	{1.0, 0.0, 0.0, 1.0},
+	{0.0, 0.0, 5.0, 1.0},
+	0.0,
+	1.0
+};
+
+materialStruct* currentMaterials;
+lightingStruct* currentLighting;
 
 class CPoint2f {
 public:
@@ -141,137 +241,6 @@ public:
 
 CModel m;
 
-float	theta, phi;
-float	delta_theta, delta_phi;
-float	start_theta, start_phi;
-
-struct  vector3d {
-	float		x;
-	float		y;
-	float		z;
-};
-
-struct point3d {
-	float		x;
-	float		y;
-	float		z;
-	vector3d	normal;
-};
-point3d* ver;
-point3d		PP[No_T][No_P];
-
-vector3d	A, B, C, D;
-
-
-struct face3 {
-	int			v1;
-	int			v2;
-	int			v3;
-	vector3d	normal;
-};
-face3* face;
-
-float	camera_radius;
-
-float	moveX, moveY;
-
-
-//********************* Material Data ****************//
-typedef struct materialStruct {
-	GLfloat	ambient[4];
-	GLfloat	diffuse[4];
-	GLfloat	specular[4];
-	GLfloat	shininess;
-}materialStruct;
-
-materialStruct brassMaterials = {
-	{0.33, 0.22, 0.03, 0.5},
-	{0.78, 0.57, 0.11, 0.5},
-	{0.99, 0.91, 0.81, 0.5},
-	1.0
-};
-
-materialStruct whitePlasticMaterials = {
-	{0.5, 0.5, 0.5, 0.0},
-	{0.5, 0.5, 0.5, 0.0},
-	{0.9, 0.9, 0.9, 0.0},
-	5.0
-};
-materialStruct blackPlasticMaterials = {
-	{0.0, 0.0, 0.0, 0.0},
-	{0.0, 0.0, 0.0, 0.0},
-	{0.1, 0.1, 0.1, 0.0},
-	5.0
-};
-materialStruct redPlasticMaterials = {
-	{0.3, 0.0, 0.0, 0.0},
-	{0.6, 0.0, 0.0, 0.0},
-	{0.8, 0.6, 0.6, 0.0},
-	5.0
-};
-
-materialStruct greenPlasticMaterials = {
-	{0.0, 0.3, 0.0, 0.0},
-	{0.0, 0.6, 0.0, 0.0},
-	{0.6, 0.8, 0.6, 0.0},
-	5.0
-};
-
-materialStruct bluePlasticMaterials = {
-	{0.0, 0.0, 0.3, 0.0},
-	{0.0, 0.0, 0.6, 0.0},
-	{0.6, 0.6, 0.8, 0.0},
-	5.0
-};
-
-materialStruct yellowPlasticMaterials = {
-	{0.3, 0.3, 0.0, 0.0},
-	{0.6, 0.6, 0.0, 0.0},
-	{0.8, 0.8, 0.8, 0.0},
-	5.0
-};
-
-
-materialStruct whiteShineyMaterials = {
-	{1.0, 1.0, 1.0, 1.0},
-	{1.0, 1.0, 1.0, 1.0},
-	{1.0, 1.0, 1.0, 1.0},
-	10.0
-};
-
-
-
-//********************* Light Data ****************//
-typedef struct lightingStruct {
-	GLfloat	ambient[4];
-	GLfloat	diffuse[4];
-	GLfloat	specular[4];
-	GLfloat	position[4];
-	GLfloat cutoff;
-	GLfloat	exponent;
-}lightingStruct;
-
-lightingStruct whiteLighting = {
-	{0.0, 0.0, 0.0, 1.0},
-	{1.0, 1.0, 1.0, 1.0},
-	{1.0, 1.0, 1.0, 1.0},
-	{0.0, 0.0, 10.0, 1.0},
-	40.0,
-	80.0
-};
-
-lightingStruct coloredLighting = {
-	{1.0, 0.0, 0.0, 1.0},
-	{1.0, 1.0, 0.0, 1.0},
-	{1.0, 0.0, 0.0, 1.0},
-	{0.0, 0.0, 5.0, 1.0},
-	0.0,
-	1.0
-};
-
-materialStruct* currentMaterials;
-lightingStruct* currentLighting;
-
 void draw_chessboard_b() {
 	currentMaterials = &blackPlasticMaterials;
 	glMaterialfv(GL_FRONT, GL_AMBIENT, currentMaterials->ambient);
@@ -293,7 +262,7 @@ void draw_chessboard_w() {
 void init(void)
 {
 	moveX = 0.0;
-	moveY = 0.0;
+	moveY = -0.55;
 	camera_radius = 6.0;
 
 	glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -324,12 +293,25 @@ void init(void)
 
 }
 
-void reshape(int w, int h)
+void changeSize(int w, int h)
 {
-	glViewport(0, 0, w, h);
+	//창이 아주 작을 때, 0 으로 나누는 것을 예방
+	if (h == 0)
+		h = 1;
+	float ratio = 1.0 * w / h;
+
+	//좌표계를 수정하기 전에 초기화
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(60.0, 1.0, 1.0, 1000);
+
+	//뷰포트를 창의 전체 크기로 설정합니다
+	glViewport(0, 0, w, h);
+
+	//투시값을 설정합니다.
+	gluPerspective(45, ratio, 1, 1000);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, -1.0, 0.0f, 1.0f, 0.0f);
 }
 
 void chessman() {
@@ -361,18 +343,19 @@ void chessman() {
 
 void display(void)
 {
-	GLfloat camx = 10, camy = 10, camz = 10;
-	GLfloat cam2x = 2, cam2y = 0, cam2z = 2;
-	GLfloat cam_upx = 0, cam_upy = 1, cam_upz = 0;
+	float	x, y, z;
 
 	glClearColor(0.7, 0.9, 0.96, 0.0);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	x = camera_radius * cos(moveY) * cos(moveX);
+	y = camera_radius * cos(moveY) * sin(moveX);
+	z = camera_radius * sin(moveY);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	gluLookAt(camx, camy, camz, cam2x, cam2y, cam2z, cam_upx, cam_upy, cam_upz);
+	gluLookAt(x, y, z, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
 
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
@@ -405,14 +388,14 @@ void display(void)
 
 	glPushMatrix();
 	glTranslatef(moveW, 0.0, 0.0);
-	glScalef(0.05, 0.05, 0.05);
+	glRotatef(90.0, 0.0, 0.0, -90.0);
+	glScalef(0.04, 0.04, 0.04);
 	chessman();
 	glPopMatrix();
 
 	glFlush();
 	glutSwapBuffers();
 }
-
 
 void SpecialKey(int key, int x, int y) {
 	switch (key) {
@@ -445,7 +428,6 @@ void MyKey(unsigned char key, int x, int y) {
 	glutPostRedisplay();
 }
 
-
 int main(int argc, char** argv)
 {
 	string filepath = "./chess/King.obj";
@@ -456,16 +438,15 @@ int main(int argc, char** argv)
 	fin.close();
 
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(1280, 720);
 	glutCreateWindow("");
 	init();
 	glutDisplayFunc(display);
 	glutSpecialFunc(SpecialKey);
-	glutKeyboardFunc(MyKey);
-	glutReshapeFunc(reshape);
+	glutReshapeFunc(changeSize);
 	glutIdleFunc(display);
 	glutMainLoop();
-	return 0;
 }
+
