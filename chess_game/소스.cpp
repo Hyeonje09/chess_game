@@ -447,13 +447,22 @@ void king() {
 }
 
 float coneY = -2.0, coneZ = -1.0;
-float kingX = 0.25, pawnX = 0.25, rookX = 0.25, knightX = 0.25, queenX = 0.25, bishopX = 0.25;
-float kingY = -0.5, kingZ = -1.5;
-float queenY = 0.0, queenZ = -1.5;
+float kingX = 0.25, kingY = -0.5, kingZ = -1.5;
+float queenX = 0.25, queenY = 0.0, queenZ = -1.5;
+float bishopX[2] = { 0.25, 0.25 }, bishopY[2] = { -1.0, 0.5 }, bishopZ[2] = { -1.5, -1.5 };
+float rookX[2] = { 0.25, 0.25 }, rookY[2] = { -2.0, 1.5 }, rookZ[2] = { -1.5, -1.5 };
+float knightX[2] = { 0.25, 0.25 }, knightY[2] = { -1.5, 1.0 }, knightZ[2] = { -1.5, -1.5 };
+float pawnX = 0.25;
 
 int moving() {
 	if (kingY == coneY && kingZ == coneZ) return 1;
 	else if (queenY == coneY && queenZ == coneZ) return 2;
+	else if (bishopY[0] == coneY && bishopZ[0] == coneZ) return 3;
+	else if (bishopY[1] == coneY && bishopZ[1] == coneZ) return 4;
+	else if (rookY[0] == coneY && rookZ[0] == coneZ) return 5;
+	else if (rookY[1] == coneY && rookZ[1] == coneZ) return 6;
+	else if (knightY[0] == coneY && knightZ[0] == coneZ) return 7;
+	else if (knightY[1] == coneY && knightZ[1] == coneZ) return 8;
 	else return 0;
 }
 
@@ -521,49 +530,12 @@ void pawn_move() {
 	glCallList(g_pawnID);
 	glPopMatrix();
 }
-void knight_move() {
+void king_move() {
 	glPushMatrix();
-	glTranslatef(knightX, -1.5, -1.5);
+	glTranslatef(kingX, kingY, kingZ);
 	glRotatef(90.0, 0.0, 0.0, -90.0);
 	glScalef(0.03, 0.03, 0.03);
-	glCallList(g_KnightID);
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(0.25, 1.0, -1.5);
-	glRotatef(90.0, 0.0, 0.0, -90.0);
-	glScalef(0.03, 0.03, 0.03);
-	glCallList(g_KnightID);
-	glPopMatrix();
-}
-void rook_move() {
-	glPushMatrix();
-	glTranslatef(rookX, -2.0, -1.5);
-	glRotatef(90.0, 0.0, 0.0, -90.0);
-	glScalef(0.03, 0.03, 0.03);
-	glCallList(g_rookID);
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(0.25, 1.5, -1.5);
-	glRotatef(90.0, 0.0, 0.0, -90.0);
-	glScalef(0.03, 0.03, 0.03);
-	glCallList(g_rookID);
-	glPopMatrix();
-}
-void bishop_move() {
-	glPushMatrix();
-	glTranslatef(bishopX, -1.0, -1.5);
-	glRotatef(90.0, 0.0, 0.0, -90.0);
-	glScalef(0.03, 0.03, 0.03);
-	glCallList(g_bishopID);
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(0.25, 0.5, -1.5);
-	glRotatef(90.0, 0.0, 0.0, -90.0);
-	glScalef(0.03, 0.03, 0.03);
-	glCallList(g_bishopID);
+	glCallList(g_kingID);
 	glPopMatrix();
 }
 void queen_move() {
@@ -574,12 +546,49 @@ void queen_move() {
 	glCallList(g_queenID);
 	glPopMatrix();
 }
-void king_move() {
+void rook_move() {
 	glPushMatrix();
-	glTranslatef(kingX, kingY, kingZ);
+	glTranslatef(rookX[0], rookY[0], rookZ[0]);
 	glRotatef(90.0, 0.0, 0.0, -90.0);
 	glScalef(0.03, 0.03, 0.03);
-	glCallList(g_kingID);
+	glCallList(g_rookID);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(rookX[1], rookY[1], rookZ[1]);
+	glRotatef(90.0, 0.0, 0.0, -90.0);
+	glScalef(0.03, 0.03, 0.03);
+	glCallList(g_rookID);
+	glPopMatrix();
+}
+void bishop_move() {
+	glPushMatrix();
+	glTranslatef(bishopX[0], bishopY[0], bishopZ[0]);
+	glRotatef(90.0, 0.0, 0.0, -90.0);
+	glScalef(0.03, 0.03, 0.03);
+	glCallList(g_bishopID);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(bishopX[1], bishopY[1], bishopZ[1]);
+	glRotatef(90.0, 0.0, 0.0, -90.0);
+	glScalef(0.03, 0.03, 0.03);
+	glCallList(g_bishopID);
+	glPopMatrix();
+}
+void knight_move() {
+	glPushMatrix();
+	glTranslatef(knightX[0], knightY[0], knightZ[0]);
+	glRotatef(90.0, 0.0, 0.0, -90.0);
+	glScalef(0.03, 0.03, 0.03);
+	glCallList(g_KnightID);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(knightX[1], knightY[1], knightZ[1]);
+	glRotatef(90.0, 0.0, 0.0, -90.0);
+	glScalef(0.03, 0.03, 0.03);
+	glCallList(g_KnightID);
 	glPopMatrix();
 }
 
@@ -649,7 +658,7 @@ void display(void) {
 	glutSwapBuffers();
 }
 
-int temp = 0; //1 : king, 2 : queen, 3 : bishop, 4 : knight, 5 : rook, 6 : pawn;
+int temp = 0; //1 : king, 2 : queen, 3, 4 : bishop, 5, 6 : knight, 7, 8 : rook, 9 ~ 16 : pawn;
 void SpecialKey(int key, int x, int y) {
 	switch (key) {
 	case GLUT_KEY_LEFT:		moveX -= 0.01;
@@ -670,6 +679,30 @@ void SpecialKey(int key, int x, int y) {
 			queenX += 0.25;
 			temp = 2;
 		}
+		else if (moving() == 3) {
+			bishopX[0] += 0.25;
+			temp = 3;
+		}
+		else if (moving() == 4) {
+			bishopX[1] += 0.25;
+			temp = 4;
+		}
+		else if (moving() == 5) {
+			rookX[0] += 0.25;
+			temp = 5;
+		}
+		else if (moving() == 6) {
+			rookX[1] += 0.25;
+			temp = 6;
+		}
+		else if (moving() == 7) {
+			knightX[0] += 0.25;
+			temp = 7;
+		}
+		else if (moving() == 8) {
+			knightX[1] += 0.25;
+			temp = 8;
+		}
 		break;
 
 	case GLUT_KEY_F2:
@@ -683,6 +716,37 @@ void SpecialKey(int key, int x, int y) {
 			queenY = coneY;
 			queenZ = coneZ;
 		}
+		else if (temp == 3) {
+			bishopX[0] -= 0.25;
+			bishopY[0] = coneY;
+			bishopZ[0] = coneZ;
+		}
+		else if (temp == 4) {
+			bishopX[1] -= 0.25;
+			bishopY[1] = coneY;
+			bishopZ[1] = coneZ;
+		}
+		else if (temp == 5) {
+			rookX[0] -= 0.25;
+			rookY[0] = coneY;
+			rookZ[0] = coneZ;
+		}
+		else if (temp == 6) {
+			rookX[1] -= 0.25;
+			rookY[1] = coneY;
+			rookZ[1] = coneZ;
+		}
+		else if (temp == 7) {
+			knightX[0] -= 0.25;
+			knightY[0] = coneY;
+			knightZ[0] = coneZ;
+		}
+		else if (temp == 8) {
+			knightX[1] -= 0.25;
+			knightY[1] = coneY;
+			knightZ[1] = coneZ;
+		}
+		
 		break;
 
 	default:				break;
