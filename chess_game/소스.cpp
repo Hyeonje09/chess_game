@@ -17,7 +17,7 @@ float	camera_radius;
 
 float	moveX, moveY;
 
-int cnt;
+int		cnt;
 
 GLuint g_pawnID, g_kingID, g_bishopID, g_KnightID, g_queenID, g_rookID;
 
@@ -263,8 +263,7 @@ void draw_chessboard_w() {
 }
 
 
-void init(void)
-{
+void init(void) {
 	moveX = 0.0;
 	moveY = -0.55;
 	camera_radius = 6.0;
@@ -283,7 +282,7 @@ void init(void)
 	glLightfv(GL_LIGHT0, GL_POSITION, currentLighting->position);
 	glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, currentLighting->cutoff);
 	glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, currentLighting->exponent);
-	
+
 
 	glEnable(GL_LIGHT1);
 	currentLighting = &whiteLighting;
@@ -299,7 +298,7 @@ void changeSize(int w, int h) {
 	//창이 아주 작을 때, 0 으로 나누는 것을 예방
 	if (h == 0)
 		h = 1;
-	
+
 	ratio = 1.0 * w / h;
 
 	//좌표계를 수정하기 전에 초기화
@@ -345,6 +344,11 @@ void chessman(CModel m) {
 	}
 }
 
+void cone() {
+	currentMaterials = &redPlasticMaterials;
+	light();
+	glutSolidCone(0.1, 0.5, 10, 10);
+}
 void pawn() {
 	g_pawnID = glGenLists(1);
 
@@ -442,10 +446,27 @@ void king() {
 	glEndList();
 }
 
-int px = -2.0, py = -1.0;
-void pawn_move(int x, int y) {
+float coneY = -2.0, coneZ = -1.0;
+float kingX = 0.25, pawnX = 0.25, rookX = 0.25, knightX = 0.25, queenX = 0.25, bishopX = 0.25;
+float kingY = -0.5, kingZ = -1.5;
+float queenY = 0.0, queenZ = -1.5;
+
+int moving() {
+	if (kingY == coneY && kingZ == coneZ) return 1;
+	else if (queenY == coneY && queenZ == coneZ) return 2;
+	else return 0;
+}
+
+void cone_move() {
 	glPushMatrix();
-	glTranslatef(0.25, -2.0, -1.0);
+	glTranslatef(2, coneY, coneZ);
+	glRotatef(90.0, 0.0, -90.0, 0.0);
+	cone();
+	glPopMatrix();
+}
+void pawn_move() {
+	glPushMatrix();
+	glTranslatef(pawnX, -2.0, -1.0);
 	glRotatef(90.0, 0.0, 0.0, -90.0);
 	glScalef(0.03, 0.03, 0.03);
 	glCallList(g_pawnID);
@@ -502,7 +523,7 @@ void pawn_move(int x, int y) {
 }
 void knight_move() {
 	glPushMatrix();
-	glTranslatef(0.25, -1.5, -1.5);
+	glTranslatef(knightX, -1.5, -1.5);
 	glRotatef(90.0, 0.0, 0.0, -90.0);
 	glScalef(0.03, 0.03, 0.03);
 	glCallList(g_KnightID);
@@ -517,7 +538,7 @@ void knight_move() {
 }
 void rook_move() {
 	glPushMatrix();
-	glTranslatef(0.25, -2.0, -1.5);
+	glTranslatef(rookX, -2.0, -1.5);
 	glRotatef(90.0, 0.0, 0.0, -90.0);
 	glScalef(0.03, 0.03, 0.03);
 	glCallList(g_rookID);
@@ -532,7 +553,7 @@ void rook_move() {
 }
 void bishop_move() {
 	glPushMatrix();
-	glTranslatef(0.25, -1.0, -1.5);
+	glTranslatef(bishopX, -1.0, -1.5);
 	glRotatef(90.0, 0.0, 0.0, -90.0);
 	glScalef(0.03, 0.03, 0.03);
 	glCallList(g_bishopID);
@@ -547,7 +568,7 @@ void bishop_move() {
 }
 void queen_move() {
 	glPushMatrix();
-	glTranslatef(0.25, 0.0, -1.5);
+	glTranslatef(queenX, queenY, queenZ);
 	glRotatef(90.0, 0.0, 0.0, -90.0);
 	glScalef(0.03, 0.03, 0.03);
 	glCallList(g_queenID);
@@ -555,7 +576,7 @@ void queen_move() {
 }
 void king_move() {
 	glPushMatrix();
-	glTranslatef(0.25, -0.5, -1.5);
+	glTranslatef(kingX, kingY, kingZ);
 	glRotatef(90.0, 0.0, 0.0, -90.0);
 	glScalef(0.03, 0.03, 0.03);
 	glCallList(g_kingID);
@@ -583,13 +604,14 @@ void display(void) {
 			glTranslatef(0.0, j - 2.0, i - 1.5);
 			draw_chessboard_b();
 			glPopMatrix();
+		}
 
+		for (int j = 0; j < 4; j++) {
 			glPushMatrix();
 			glTranslatef(0.0, j - 1.5, i - 1.0);
 			draw_chessboard_b();
 			glPopMatrix();
 		}
-
 	}
 
 	for (int i = 0; i < 4; i++) {
@@ -598,91 +620,36 @@ void display(void) {
 			glTranslatef(0.0, j - 1.5, i - 1.5);
 			draw_chessboard_w();
 			glPopMatrix();
+		}
 
+		for (int j = 0; j < 4; j++) {
 			glPushMatrix();
 			glTranslatef(0.0, j - 2.0, i - 1.0);
 			draw_chessboard_w();
 			glPopMatrix();
 		}
+
 	}
 
-	
-	glPushName(g_pawnID);
-	pawn_move(px, py);
-	
-	glPushName(g_rookID);
+	cone_move();
+
+	pawn_move();
+
 	rook_move();
-	
-	glPushName(g_bishopID);
+
 	bishop_move();
-	
-	glPushName(g_KnightID);
+
 	knight_move();
-	
-	glPushName(g_queenID);
+
 	queen_move();
 
-	glPushName(g_kingID);
 	king_move();
 
 	glFlush();
 	glutSwapBuffers();
 }
 
-void ProcessSelect(GLuint index[64], GLuint hits, int x, int y) {
-	if (hits == 2) {
-		if (index[3] == g_pawnID) {
-			cout << "pawn" << endl;
-		}
-		else if (index[3] == g_kingID) {
-			cout << "king" << endl;
-		}
-		else if (index[3] == g_KnightID) {
-			cout << "knight" << endl;
-		}
-		else if (index[3] == g_queenID) {
-			cout << "queen" << endl;
-		}
-		else if (index[3] == g_bishopID) {
-			cout << "bishop" << endl;
-		}
-		else if (index[3] == g_rookID) {
-			cout << "rook" << endl;
-		}
-	}
-	else {
-		cout << "이동할 좌표 : " << x << ", " << y << endl;
-		pawn_move(x, y);
-	}
-}
-
-void SelectObject(int x, int y) {
-	GLuint selectBuff[64];
-	GLint hits, viewport[4];
-	
-	glSelectBuffer(64, selectBuff);
-	glGetIntegerv(GL_VIEWPORT, viewport);
-
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glRenderMode(GL_SELECT);
-	glLoadIdentity();
-	gluPickMatrix(x, viewport[3] - y, 2, 2, viewport);
-	gluPerspective(45.0f, ratio, 0.1f, 100.0f);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	display();
-	hits = glRenderMode(GL_RENDER);
-	cout << "hits : " << hits << endl;
-	if (hits > 0) {
-		cnt++;
-		ProcessSelect(selectBuff, hits, x, y);
-	}
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-}
-
+int temp = 0; //1 : king, 2 : queen, 3 : bishop, 4 : knight, 5 : rook, 6 : pawn;
 void SpecialKey(int key, int x, int y) {
 	switch (key) {
 	case GLUT_KEY_LEFT:		moveX -= 0.01;
@@ -693,6 +660,31 @@ void SpecialKey(int key, int x, int y) {
 		break;
 	case GLUT_KEY_DOWN:		moveY -= 0.01;
 		break;
+
+	case GLUT_KEY_F1:		
+		if (moving() == 1) {
+			kingX += 0.25;
+			temp = 1;
+		}
+		else if (moving() == 2) {
+			queenX += 0.25;
+			temp = 2;
+		}
+		break;
+
+	case GLUT_KEY_F2:
+		if (temp == 1) {
+			kingX -= 0.25;
+			kingY = coneY;
+			kingZ = coneZ;
+		}
+		else if (temp == 2) {
+			queenX -= 0.25;
+			queenY = coneY;
+			queenZ = coneZ;
+		}
+		break;
+
 	default:				break;
 	}
 
@@ -704,19 +696,20 @@ void SpecialKey(int key, int x, int y) {
 	glutPostRedisplay();
 }
 
-//button : 왼쪽 or 오른쪽 버튼 / state : 눌렸는지 떼었는지 / x, y : 위치 정보(픽셀 단위)
-void mouse(int button, int state, int x, int y) {
-	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-		SelectObject(x, y);
-		cout << ">> cnt : " << cnt << endl;
+void MyKey(unsigned char key, int x, int y) {
+	switch (key) {
+	case 'w':	coneZ += 0.5;
+		break;
+	case 's':	coneZ -= 0.5;
+		break;
+	case 'a':	coneY -= 0.5;
+		break;
+	case 'd':	coneY += 0.5;
+		break;
+
+	default: break;
 	}
 
-	/*
-	else if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN) {
-		
-	}
-	*/
-	
 	glutPostRedisplay();
 }
 
@@ -729,6 +722,7 @@ int main(int argc, char** argv) {
 
 	init();
 
+	cone();
 	pawn();
 	rook();
 	bishop();
@@ -738,7 +732,7 @@ int main(int argc, char** argv) {
 
 	glutDisplayFunc(display);
 	glutSpecialFunc(SpecialKey);
-	glutMouseFunc(mouse);
+	glutKeyboardFunc(MyKey);
 	glutReshapeFunc(changeSize);
 	glutIdleFunc(display);
 	glutMainLoop();
