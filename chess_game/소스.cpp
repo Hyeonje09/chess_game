@@ -606,9 +606,35 @@ void chessman_move(int temp) {
             }
         }
     }
-   // else if (temp == 7 || temp == 8) { // 나이트
-    
-   // }
+    else if (temp == 7 || temp == 8) { // 나이트
+        if (coneC.y == knightCircle_front_l.y && coneC.z == knightCircle_front_l.z) {
+            movechs(knightCircle_front_l.y, knightCircle_front_l.z);
+        }
+        else if (coneC.y == knightCircle_front_r.y && coneC.z == knightCircle_front_r.z) {
+            movechs(knightCircle_front_r.y, knightCircle_front_r.z);
+        }
+        else if (coneC.y == knightCircle_left_u.y && coneC.z == knightCircle_left_u.z) {
+            movechs(knightCircle_left_u.y, knightCircle_left_u.z);
+        }
+        else if (coneC.y == knightCircle_left_d.y && coneC.z == knightCircle_left_d.z) {
+            movechs(knightCircle_left_d.y, knightCircle_left_d.z);
+        }
+        else if (coneC.y == knightCircle_right_u.y && coneC.z == knightCircle_right_u.z) {
+            movechs(knightCircle_right_u.y, knightCircle_right_u.z);
+        }
+        else if (coneC.y == knightCircle_right_d.y && coneC.z == knightCircle_right_d.z) {
+            movechs(knightCircle_right_d.y, knightCircle_right_d.z);
+        }
+        else if (coneC.y == knightCircle_behind_r.y && coneC.z == knightCircle_behind_r.z) {
+            movechs(knightCircle_behind_r.y, knightCircle_behind_r.z);
+        }
+        else if (coneC.y == knightCircle_behind_l.y && coneC.z == knightCircle_behind_l.z) {
+            movechs(knightCircle_behind_l.y, knightCircle_behind_l.z);
+        }
+        else {
+            movechs(knightC[temp % 7].y, knightC[temp % 7].z);
+        }
+    }
     else if (temp >= 9 && temp <= 16) {
         if (coneC.y == pawnCircle_front[0].y && coneC.z == pawnCircle_front[0].z) {
             movechs(pawnCircle_front[0].y, pawnCircle_front[0].z);
