@@ -491,6 +491,8 @@ int moving() {
     }
 }
 
+
+int pawnchk = 0;
 void chessman_move(int temp) {
     if (temp == 1) {
         if (coneC.y == kingCircle_behind.y && coneC.z == kingCircle_behind.z) {
@@ -639,7 +641,7 @@ void chessman_move(int temp) {
         if (coneC.y == pawnCircle_front[0].y && coneC.z == pawnCircle_front[0].z) {
             movechs(pawnCircle_front[0].y, pawnCircle_front[0].z);
         }
-        else if (coneC.y == pawnCircle_front[1].y && coneC.z == pawnCircle_front[1].z) {
+        else if (coneC.y == pawnCircle_front[1].y && coneC.z == pawnCircle_front[1].z && pawn_moved[pawnchk] == 0) {
             movechs(pawnCircle_front[1].y, pawnCircle_front[1].z);
         }
         else if (coneC.y == pawnCircle_left.y && coneC.z == pawnCircle_left.z) {
@@ -955,6 +957,7 @@ void move_Knight_Circle(int x) {
     }
 }
 void move_Pawn_Circle(int x) {
+    pawnchk = x;
     float a = 0.5;
     float b = 1.0;
     pawnCircle_front[0].x = a;
@@ -1294,71 +1297,72 @@ void SpecialKey(int key, int x, int y) {
         break;
 
     case GLUT_KEY_F2:
-        if (temp == 1) {
-            chessman_move(temp);
-            kingC.x = 0.25;
-            kingC.y = coneC.y;
-            kingC.z = coneC.z;
-            temp = 0;
+        if (coneC.y >= -2.0 && coneC.y <= 1.5 && coneC.z >= -1.5 && coneC.z <= 2.0) {
+            if (temp == 1) {
+                chessman_move(temp);
+                kingC.x = 0.25;
+                kingC.y = coneC.y;
+                kingC.z = coneC.z;
+                temp = 0;
+            }
+            else if (temp == 2) {
+                chessman_move(temp);
+                queenC.x = 0.25;
+                queenC.y = coneC.y;
+                queenC.z = coneC.z;
+                temp = 0;
+            }
+            else if (temp == 3) {
+                chessman_move(temp);
+                bishopC[0].x = 0.25;
+                bishopC[0].y = coneC.y;
+                bishopC[0].z = coneC.z;
+                temp = 0;
+            }
+            else if (temp == 4) {
+                chessman_move(temp);
+                bishopC[1].x = 0.25;
+                bishopC[1].y = coneC.y;
+                bishopC[1].z = coneC.y;
+                temp = 0;
+            }
+            else if (temp == 5) {
+                chessman_move(temp);
+                rookC[0].x = 0.25;
+                rookC[0].y = coneC.y;
+                rookC[0].z = coneC.z;
+                temp = 0;
+            }
+            else if (temp == 6) {
+                chessman_move(temp);
+                rookC[1].x = 0.25;
+                rookC[1].y = coneC.y;
+                rookC[1].z = coneC.z;
+                temp = 0;
+            }
+            else if (temp == 7) {
+                chessman_move(temp);
+                knightC[0].x = 0.25;
+                knightC[0].y = coneC.y;
+                knightC[0].z = coneC.z;
+                temp = 0;
+            }
+            else if (temp == 8) {
+                chessman_move(temp);
+                knightC[1].x = 0.25;
+                knightC[1].y = coneC.y;
+                knightC[1].z = coneC.z;
+                temp = 0;
+            }
+            else if (temp >= 9 && temp <= 16) {
+                chessman_move(temp);
+                pawnC[temp % 9].x = 0.25;
+                pawnC[temp % 9].y = coneC.y;
+                pawnC[temp % 9].z = coneC.z;
+                pawn_moved[temp % 9]++;
+                temp = 0;
+            }
         }
-        else if (temp == 2) {
-            chessman_move(temp);
-            queenC.x = 0.25;
-            queenC.y = coneC.y;
-            queenC.z = coneC.z;
-            temp = 0;
-        }
-        else if (temp == 3) {
-            chessman_move(temp);
-            bishopC[0].x = 0.25;
-            bishopC[0].y = coneC.y;
-            bishopC[0].z = coneC.z;
-            temp = 0;
-        }
-        else if (temp == 4) {
-            chessman_move(temp);
-            bishopC[1].x = 0.25;
-            bishopC[1].y = coneC.y;
-            bishopC[1].z = coneC.y;
-            temp = 0;
-        }
-        else if (temp == 5) {
-            chessman_move(temp);
-            rookC[0].x = 0.25;
-            rookC[0].y = coneC.y;
-            rookC[0].z = coneC.z;
-            temp = 0;
-        }
-        else if (temp == 6) {
-            chessman_move(temp);
-            rookC[1].x = 0.25;
-            rookC[1].y = coneC.y;
-            rookC[1].z = coneC.z;
-            temp = 0;
-        }
-        else if (temp == 7) {
-            chessman_move(temp);
-            knightC[0].x = 0.25;
-            knightC[0].y = coneC.y;
-            knightC[0].z = coneC.z;
-            temp = 0;
-        }
-        else if (temp == 8) {
-            chessman_move(temp);
-            knightC[1].x = 0.25;
-            knightC[1].y = coneC.y;
-            knightC[1].z = coneC.z;
-            temp = 0;
-        }
-        else if (temp >= 9 && temp <= 16) {
-            chessman_move(temp);
-            pawnC[temp % 9].x = 0.25;
-            pawnC[temp % 9].y = coneC.y;
-            pawnC[temp % 9].z = coneC.z;
-            pawn_moved[temp % 9]++;
-            temp = 0;
-        }
-
         break;
 
     default:            break;
