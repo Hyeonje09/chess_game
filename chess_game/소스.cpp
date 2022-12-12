@@ -457,6 +457,10 @@ struct coordinate pawnC[8] = {
 };
 
 struct coordinate kingCircle_front, kingCircle_behind, kingCircle_left, kingCircle_right, kingCircle_left_u, kingCircle_left_d, kingCircle_right_u, kingCircle_right_d;
+struct coordinate rookCircle_front[8], rookCircle_right[8], rookCircle_left[8], rookCircle_behind[8];
+struct coordinate pawnCircle_front[2], pawnCircle_right, pawnCircle_left;
+int pawn_moved[8] = { 0 };
+
 
 void movechs(float y, float z) {
     coneC.y = y;
@@ -484,33 +488,52 @@ int moving() {
     }
 }
 
-void chessman_move() {
-    if (coneC.y == kingCircle_behind.y && coneC.z == kingCircle_behind.z) {
-        movechs(kingCircle_behind.y, kingCircle_behind.z);
+void chessman_move(int temp) {
+    if (temp == 1) {
+        if (coneC.y == kingCircle_behind.y && coneC.z == kingCircle_behind.z) {
+            movechs(kingCircle_behind.y, kingCircle_behind.z);
+        }
+        else if (coneC.y == kingCircle_front.y && coneC.z == kingCircle_front.z) {
+            movechs(kingCircle_front.y, kingCircle_front.z);
+        }
+        else if (coneC.y == kingCircle_left.y && coneC.z == kingCircle_left.z) {
+            movechs(kingCircle_left.y, kingCircle_left.z);
+        }
+        else if (coneC.y == kingCircle_right.y && coneC.z == kingCircle_right.z) {
+            movechs(kingCircle_right.y, kingCircle_right.z);
+        }
+        else if (coneC.y == kingCircle_right_u.y && coneC.z == kingCircle_right_u.z) {
+            movechs(kingCircle_right_u.y, kingCircle_right_u.z);
+        }
+        else if (coneC.y == kingCircle_right_d.y && coneC.z == kingCircle_right_d.z) {
+            movechs(kingCircle_right_d.y, kingCircle_right_d.z);
+        }
+        else if (coneC.y == kingCircle_left_u.y && coneC.z == kingCircle_left_u.z) {
+            movechs(kingCircle_left_u.y, kingCircle_left_u.z);
+        }
+        else if (coneC.y == kingCircle_left_d.y && coneC.z == kingCircle_left_d.z) {
+            movechs(kingCircle_left_d.y, kingCircle_left_d.z);
+        }
+        else {
+            movechs(kingC.y, kingC.z);
+        }
     }
-    else if (coneC.y == kingCircle_front.y && coneC.z == kingCircle_front.z) {
-        movechs(kingCircle_front.y, kingCircle_front.z);
-    }
-    else if (coneC.y == kingCircle_left.y && coneC.z == kingCircle_left.z) {
-        movechs(kingCircle_left.y, kingCircle_left.z);
-    }
-    else if (coneC.y == kingCircle_right.y && coneC.z == kingCircle_right.z) {
-        movechs(kingCircle_right.y, kingCircle_right.z);
-    }
-    else if (coneC.y == kingCircle_right_u.y && coneC.z == kingCircle_right_u.z) {
-        movechs(kingCircle_right_u.y, kingCircle_right_u.z);
-    }
-    else if (coneC.y == kingCircle_right_d.y && coneC.z == kingCircle_right_d.z) {
-        movechs(kingCircle_right_d.y, kingCircle_right_d.z);
-    }
-    else if (coneC.y == kingCircle_left_u.y && coneC.z == kingCircle_left_u.z) {
-        movechs(kingCircle_left_u.y, kingCircle_left_u.z);
-    }
-    else if (coneC.y == kingCircle_left_d.y && coneC.z == kingCircle_left_d.z) {
-        movechs(kingCircle_left_d.y, kingCircle_left_d.z);
-    }
-    else {
-        movechs(kingC.y, kingC.z);
+    else if (temp >= 9 && temp <= 16) {
+        if (coneC.y == pawnCircle_front[0].y && coneC.z == pawnCircle_front[0].z) {
+            movechs(pawnCircle_front[0].y, pawnCircle_front[0].z);
+        }
+        else if (coneC.y == pawnCircle_front[1].y && coneC.z == pawnCircle_front[1].z) {
+            movechs(pawnCircle_front[1].y, pawnCircle_front[1].z);
+        }
+        else if (coneC.y == pawnCircle_left.y && coneC.z == pawnCircle_left.z) {
+            movechs(pawnCircle_left.y, pawnCircle_left.z);
+        }
+        else if (coneC.y == pawnCircle_right.y && coneC.z == pawnCircle_right.z) {
+            movechs(pawnCircle_right.y, pawnCircle_right.z);
+        }
+        else {
+            movechs(pawnC[temp % 9].y, pawnC[temp % 9].z);
+        }
     }
 }
 
@@ -575,112 +598,50 @@ void move_King_Circle() {
         glPopMatrix();
     }
 }
-
-void move_Rook_Circle(int x) {
-    for (float i = 0.5; rookC[x].y + i <= 1.5; i += 0.5) {
-        glPushMatrix();
-        glTranslatef(0.5, rookC[x].y + i, rookC[x].z);
-        draw_move_Circle();
-        glPopMatrix();
-    }
-
-    for (float i = 0.5; rookC[x].y - i >= -2; i += 0.5) {
-        glPushMatrix();
-        glTranslatef(0.5, rookC[x].y - i, rookC[x].z);
-        draw_move_Circle();
-        glPopMatrix();
-    }
-    for (float i = 0.5; rookC[x].z + i <= 2; i += 0.5) {
-        glPushMatrix();
-        glTranslatef(0.5, rookC[x].y, rookC[x].z + i);
-        draw_move_Circle();
-        glPopMatrix();
-    }
-
-    for (float i = 0.5; rookC[x].z - i >= -1.5; i += 0.5) {
-        glPushMatrix();
-        glTranslatef(0.5, rookC[x].y, rookC[x].z - i);
-        draw_move_Circle();
-        glPopMatrix();
-    }
-}
 void move_Pawn_Circle(int x) {
-    if (pawnC[x].y + 0.5 <= 1.5) {
-        glPushMatrix();
-        glTranslatef(0.5, pawnC[x].y + 0.5, pawnC[x].z);
-        draw_move_Circle();
-        glPopMatrix();
-    }
-    if (pawnC[x].y - 0.5 >= -2) {
-        glPushMatrix();
-        glTranslatef(0.5, pawnC[x].y - 0.5, pawnC[x].z);
-        draw_move_Circle();
-        glPopMatrix();
-    }
-    if (pawnC[x].z + 0.5 <= 2) {
-        glPushMatrix();
-        glTranslatef(0.5, pawnC[x].y, pawnC[x].z + 0.5);
-        draw_move_Circle();
-        glPopMatrix();
-    }
-    if (pawnC[x].z - 0.5 >= -1.5) {
-        glPushMatrix();
-        glTranslatef(0.5, pawnC[x].y, pawnC[x].z - 0.5);
-        draw_move_Circle();
-        glPopMatrix();
-    }
-}
-void move_Queen_Circle() {
-    for (float i = 0.5; queenC.y + i <= 1.5; i += 0.5) {
-        glPushMatrix();
-        glTranslatef(0.5, queenC.y + i, queenC.z);
-        draw_move_Circle();
-        glPopMatrix();
-    }
-    for (float i = 0.5; queenC.y - i >= -2; i += 0.5) {
-        glPushMatrix();
-        glTranslatef(0.5, queenC.y - i, queenC.z);
-        draw_move_Circle();
-        glPopMatrix();
-    }
-    for (float i = 0.5; queenC.z + i <= 2; i += 0.5) {
-        glPushMatrix();
-        glTranslatef(0.5, queenC.y, queenC.z + i);
-        draw_move_Circle();
-        glPopMatrix();
-    }
-    for (float i = 0.5; queenC.z - i >= -1.5; i += 0.5) {
-        glPushMatrix();
-        glTranslatef(0.5, queenC.y, queenC.z - i);
-        draw_move_Circle();
-        glPopMatrix();
-    }
-    if (queenC.y - 0.5 >= -2 && queenC.z - 0.5 >= -1.5) {
-        glPushMatrix();
-        glTranslatef(0.5, queenC.y - 0.5, queenC.z - 0.5);
-        draw_move_Circle();
-        glPopMatrix();
-    }
-    if (queenC.y + 0.5 <= 1.5 && queenC.z - 0.5 >= -1.5) {
-        glPushMatrix();
-        glTranslatef(0.5, queenC.y + 0.5, queenC.z - 0.5);
-        draw_move_Circle();
-        glPopMatrix();
-    }
-    if (queenC.y - 0.5 >= -2 && queenC.z + 0.5 <= 2) {
-        glPushMatrix();
-        glTranslatef(0.5, queenC.y - 0.5, queenC.z + 0.5);
-        draw_move_Circle();
-        glPopMatrix();
-    }
-    if (queenC.y + 0.5 <= 1.5 && queenC.z + 0.5 <= 2) {
-        glPushMatrix();
-        glTranslatef(0.5, queenC.y + 0.5, queenC.z + 0.5);
-        draw_move_Circle();
-        glPopMatrix();
-    }
-}
+    float a = 0.5;
+    float b = 1.0;
+    pawnCircle_front[0].x = a;
+    pawnCircle_front[0].y = pawnC[x].y;
+    pawnCircle_front[0].z = pawnC[x].z + a;
 
+    pawnCircle_front[1].x = a;
+    pawnCircle_front[1].y = pawnC[x].y;
+    pawnCircle_front[1].z = pawnC[x].z + b;
+
+    pawnCircle_left.x = a;
+    pawnCircle_left.y = pawnC[x].y - a;
+    pawnCircle_left.z = pawnC[x].z;
+
+    pawnCircle_right.x = a;
+    pawnCircle_right.y = pawnC[x].y + a;
+    pawnCircle_right.z = pawnC[x].z;
+
+    if (pawnC[x].y + a <= 1.5) {
+        glPushMatrix();
+        glTranslatef(pawnCircle_right.x, pawnCircle_right.y, pawnCircle_right.z);
+        draw_move_Circle();
+        glPopMatrix();
+    }
+    if (pawnC[x].y - a >= -2) {
+        glPushMatrix();
+        glTranslatef(pawnCircle_left.x, pawnCircle_left.y, pawnCircle_left.z);
+        draw_move_Circle();
+        glPopMatrix();
+    }
+    if (pawnC[x].z + a <= 2) {
+        glPushMatrix();
+        glTranslatef(pawnCircle_front[0].x, pawnCircle_front[0].y, pawnCircle_front[0].z);
+        draw_move_Circle();
+        glPopMatrix();
+        if (pawn_moved[x] == 0) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front[1].x, pawnCircle_front[1].y, pawnCircle_front[1].z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+}
 void cone_move() {
     glPushMatrix();
     glTranslatef(coneC.x, coneC.y, coneC.z);
@@ -856,60 +817,34 @@ void display(void) {
     }
 
     cone_move();
-
+    king_move();
     pawn_move();
-
     rook_move();
-
     bishop_move();
-
     knight_move();
-
     queen_move();
 
-    king_move();
 
     if (temp == 1) {
         move_King_Circle();
     }
     else if (temp == 2) {
-        move_Queen_Circle();
+        //move_Queen_Circle();
     }
     else if (temp == 5) {
-        move_Rook_Circle(0);
+       // move_Rook_Circle(0);
     }
     else if (temp == 6) {
-        move_Rook_Circle(1);
+        //move_Rook_Circle(1);
     }
-    else if (temp == 9) {
-        move_Pawn_Circle(0);
+    else if (temp >= 9 && temp <= 16) {
+        move_Pawn_Circle(temp % 9);
     }
-    else if (temp == 10) {
-        move_Pawn_Circle(1);
-    }
-    else if (temp == 11) {
-        move_Pawn_Circle(2);
-    }
-    else if (temp == 12) {
-        move_Pawn_Circle(3);
-    }
-    else if (temp == 13) {
-        move_Pawn_Circle(4);
-    }
-    else if (temp == 14) {
-        move_Pawn_Circle(5);
-    }
-    else if (temp == 15) {
-        move_Pawn_Circle(6);
-    }
-    else if (temp == 16) {
-        move_Pawn_Circle(7);
-    }
+  
 
     glFlush();
     glutSwapBuffers();
 }
-
 
 void SpecialKey(int key, int x, int y) {
     switch (key) {
@@ -923,171 +858,135 @@ void SpecialKey(int key, int x, int y) {
         break;
 
     case GLUT_KEY_F1:
-        cout << "움직임 여부 : " << moving() << endl;
         if (moving() == 1) {
-            kingC.x += 0.25;
+            kingC.x = 0.5;
             temp = 1;
         }
         else if (moving() == 2) {
-            queenC.x += 0.25;
+            queenC.x = 0.5;
             temp = 2;
         }
         else if (moving() == 3) {
-            bishopC[0].x += 0.25;
+            bishopC[0].x = 0.5;
             temp = 3;
         }
         else if (moving() == 4) {
-            bishopC[1].x += 0.25;
+            bishopC[1].x = 0.5;
             temp = 4;
         }
         else if (moving() == 5) {
-            rookC[0].x += 0.25;
+            rookC[0].x = 0.5;
             temp = 5;
         }
         else if (moving() == 6) {
-            rookC[1].x += 0.25;
+            rookC[1].x = 0.5;
             temp = 6;
         }
         else if (moving() == 7) {
-            knightC[0].x += 0.25;
+            knightC[0].x = 0.5;
             temp = 7;
         }
         else if (moving() == 8) {
-            knightC[1].x += 0.25;
+            knightC[1].x = 0.5;
             temp = 8;
         }
         else if (moving() == 9) {
-            pawnC[0].x += 0.25;
+            pawnC[0].x = 0.5;
             temp = 9;
         }
         else if (moving() == 10) {
-            pawnC[1].x += 0.25;
+            pawnC[1].x = 0.5;
             temp = 10;
         }
         else if (moving() == 11) {
-            pawnC[2].x += 0.25;
+            pawnC[2].x = 0.5;
             temp = 11;
         }
         else if (moving() == 12) {
-            pawnC[3].x += 0.25;
+            pawnC[3].x = 0.5;
             temp = 12;
         }
         else if (moving() == 13) {
-            pawnC[4].x += 0.25;
+            pawnC[4].x = 0.5;
             temp = 13;
         }
         else if (moving() == 14) {
-            pawnC[5].x += 0.25;
+            pawnC[5].x = 0.5;
             temp = 14;
         }
         else if (moving() == 15) {
-            pawnC[6].x += 0.25;
+            pawnC[6].x = 0.5;
             temp = 15;
         }
         else if (moving() == 16) {
-            pawnC[7].x += 0.25;
+            pawnC[7].x = 0.5;
             temp = 16;
         }
         break;
 
     case GLUT_KEY_F2:
         if (temp == 1) {
-            cout << "현재 : " << temp << endl;
-            chessman_move();
-            kingC.x -= 0.25;
+            chessman_move(temp);
+            kingC.x = 0.25;
             kingC.y = coneC.y;
             kingC.z = coneC.z;
             temp = 0;
-            cout << "처리 후 : " << temp << endl;
         }
         else if (temp == 2) {
-            queenC.x -= 0.25;
+            chessman_move(temp);
+            queenC.x = 0.25;
             queenC.y = coneC.y;
             queenC.z = coneC.z;
             temp = 0;
         }
         else if (temp == 3) {
-            bishopC[0].x -= 0.25;
+            chessman_move(temp);
+            bishopC[0].x = 0.25;
             bishopC[0].y = coneC.y;
             bishopC[0].z = coneC.z;
             temp = 0;
         }
         else if (temp == 4) {
-            bishopC[1].x -= 0.25;
+            chessman_move(temp);
+            bishopC[1].x = 0.25;
             bishopC[1].y = coneC.y;
             bishopC[1].z = coneC.y;
             temp = 0;
         }
         else if (temp == 5) {
-            rookC[0].x -= 0.25;
+            chessman_move(temp);
+            rookC[0].x = 0.25;
             rookC[0].y = coneC.y;
             rookC[0].z = coneC.z;
             temp = 0;
         }
         else if (temp == 6) {
-            rookC[1].x -= 0.25;
+            chessman_move(temp);
+            rookC[1].x = 0.25;
             rookC[1].y = coneC.y;
             rookC[1].z = coneC.z;
             temp = 0;
         }
         else if (temp == 7) {
-            knightC[0].x -= 0.25;
+            chessman_move(temp);
+            knightC[0].x = 0.25;
             knightC[0].y = coneC.y;
             knightC[0].z = coneC.z;
             temp = 0;
         }
         else if (temp == 8) {
-            knightC[1].x -= 0.25;
+            chessman_move(temp);
+            knightC[1].x = 0.25;
             knightC[1].y = coneC.y;
             knightC[1].z = coneC.z;
             temp = 0;
         }
-        else if (temp == 9) {
-            pawnC[0].x -= 0.25;
-            pawnC[0].y = coneC.y;
-            pawnC[0].z = coneC.z;
-            temp = 0;
-        }
-        else if (temp == 10) {
-            pawnC[1].x -= 0.25;
-            pawnC[1].y = coneC.y;
-            pawnC[1].z = coneC.z;
-            temp = 0;
-        }
-        else if (temp == 11) {
-            pawnC[2].x -= 0.25;
-            pawnC[2].y = coneC.y;
-            pawnC[2].z = coneC.z;
-            temp = 0;
-        }
-        else if (temp == 12) {
-            pawnC[3].x -= 0.25;
-            pawnC[3].y = coneC.y;
-            pawnC[3].z = coneC.z;
-            temp = 0;
-        }
-        else if (temp == 13) {
-            pawnC[4].x -= 0.25;
-            pawnC[4].y = coneC.y;
-            pawnC[4].z = coneC.z;
-            temp = 0;
-        }
-        else if (temp == 14) {
-            pawnC[5].x -= 0.25;
-            pawnC[5].y = coneC.y;
-            pawnC[5].z = coneC.z;
-            temp = 0;
-        }
-        else if (temp == 15) {
-            pawnC[6].x -= 0.25;
-            pawnC[6].y = coneC.y;
-            pawnC[6].z = coneC.z;
-            temp = 0;
-        }
-        else if (temp == 16) {
-            pawnC[7].x -= 0.25;
-            pawnC[7].y = coneC.y;
-            pawnC[7].z = coneC.z;
+        else if (temp >= 9 && temp <= 16) {
+            chessman_move(temp);
+            pawnC[temp % 9].x = 0.25;
+            pawnC[temp % 9].y = coneC.y;
+            pawnC[temp % 9].z = coneC.z;
+            pawn_moved[temp % 9]++;
             temp = 0;
         }
 
