@@ -446,85 +446,101 @@ void king() {
 	glEndList();
 }
 
-float coneY = -2.0, coneZ = -1.0;
-float kingX = 0.25, kingY = -0.5, kingZ = -1.5;
-float queenX = 0.25, queenY = 0.0, queenZ = -1.5;
-float bishopX[2] = { 0.25, 0.25 }, bishopY[2] = { -1.0, 0.5 }, bishopZ[2] = { -1.5, -1.5 };
-float rookX[2] = { 0.25, 0.25 }, rookY[2] = { -2.0, 1.5 }, rookZ[2] = { -1.5, -1.5 };
-float knightX[2] = { 0.25, 0.25 }, knightY[2] = { -1.5, 1.0 }, knightZ[2] = { -1.5, -1.5 };
-float pawnX = 0.25;
+struct coordinate {
+	float x, y, z;
+};
+
+struct coordinate coneC = { 2, -2.0, -1.0 };
+struct coordinate kingC = { 0.25, -0.5, -1.5 };
+struct coordinate queenC = { 0.25, 0.0, -1.5 };
+struct coordinate bishopC[2] = { {0.25, -1.0, -1.5}, {0.25, 0.5, -1.5} };
+struct coordinate rookC[2] = { { 0.25, -2.0, -1.5 }, { 0.25, 1.5, -1.5 } };
+struct coordinate knightC[2] = { {0.25, -1.5, -1.5}, {0.25, 1.0, -1.5} };
+struct coordinate pawnC[8] = {
+	{ 0.25, -2.0, -1.0 }, { 0.25, -1.5, -1.0 }, { 0.25, -1.0, -1.0 }, { 0.25, 1.0, -1.0 },
+	{ 0.25, -0.5, -1.0 }, { 0.25, 0.0, -1.0 }, { 0.25, 0.5, -1.0 }, { 0.25, 1.5, -1.0 }
+};
 
 int moving() {
-	if (kingY == coneY && kingZ == coneZ) return 1;
-	else if (queenY == coneY && queenZ == coneZ) return 2;
-	else if (bishopY[0] == coneY && bishopZ[0] == coneZ) return 3;
-	else if (bishopY[1] == coneY && bishopZ[1] == coneZ) return 4;
-	else if (rookY[0] == coneY && rookZ[0] == coneZ) return 5;
-	else if (rookY[1] == coneY && rookZ[1] == coneZ) return 6;
-	else if (knightY[0] == coneY && knightZ[0] == coneZ) return 7;
-	else if (knightY[1] == coneY && knightZ[1] == coneZ) return 8;
-	else return 0;
+	if (kingC.y == coneC.y && kingC.z == coneC.z) return 1;
+	else if (queenC.y == coneC.y && queenC.z == coneC.z) return 2;
+	else if (bishopC[0].y == coneC.y && bishopC[0].z == coneC.z) return 3;
+	else if (bishopC[1].y == coneC.y && bishopC[1].z == coneC.z) return 4;
+	else if (rookC[0].y == coneC.y && rookC[0].z == coneC.z) return 5;
+	else if (rookC[1].y == coneC.y && rookC[1].z == coneC.z) return 6;
+	else if (knightC[0].y == coneC.y && knightC[0].z == coneC.z) return 7;
+	else if (knightC[1].y == coneC.y && knightC[1].z == coneC.z) return 8;
+	else {
+		if (pawnC[0].y == coneC.y && pawnC[0].z == coneC.z) return 9;
+		else if (pawnC[1].y == coneC.y && pawnC[1].z == coneC.z) return 10;
+		else if (pawnC[2].y == coneC.y && pawnC[2].z == coneC.z) return 11;
+		else if (pawnC[3].y == coneC.y && pawnC[3].z == coneC.z) return 12;
+		else if (pawnC[4].y == coneC.y && pawnC[4].z == coneC.z) return 13;
+		else if (pawnC[5].y == coneC.y && pawnC[5].z == coneC.z) return 14;
+		else if (pawnC[6].y == coneC.y && pawnC[6].z == coneC.z) return 15;
+		else if (pawnC[7].y == coneC.y && pawnC[7].z == coneC.z) return 16;
+	}
 }
 
 void cone_move() {
 	glPushMatrix();
-	glTranslatef(2, coneY, coneZ);
+	glTranslatef(coneC.x, coneC.y, coneC.z);
 	glRotatef(90.0, 0.0, -90.0, 0.0);
 	cone();
 	glPopMatrix();
 }
 void pawn_move() {
 	glPushMatrix();
-	glTranslatef(pawnX, -2.0, -1.0);
+	glTranslatef(pawnC[0].x, pawnC[0].y, pawnC[0].z);
 	glRotatef(90.0, 0.0, 0.0, -90.0);
 	glScalef(0.03, 0.03, 0.03);
 	glCallList(g_pawnID);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0.25, -1.5, -1.0);
+	glTranslatef(pawnC[1].x, pawnC[1].y, pawnC[1].z);
 	glRotatef(90.0, 0.0, 0.0, -90.0);
 	glScalef(0.03, 0.03, 0.03);
 	glCallList(g_pawnID);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0.25, -1.0, -1.0);
+	glTranslatef(pawnC[2].x, pawnC[2].y, pawnC[2].z);
 	glRotatef(90.0, 0.0, 0.0, -90.0);
 	glScalef(0.03, 0.03, 0.03);
 	glCallList(g_pawnID);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0.25, -0.5, -1.0);
+	glTranslatef(pawnC[3].x, pawnC[3].y, pawnC[3].z);
 	glRotatef(90.0, 0.0, 0.0, -90.0);
 	glScalef(0.03, 0.03, 0.03);
 	glCallList(g_pawnID);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0.25, 0.0, -1.0);
+	glTranslatef(pawnC[4].x, pawnC[4].y, pawnC[4].z);
 	glRotatef(90.0, 0.0, 0.0, -90.0);
 	glScalef(0.03, 0.03, 0.03);
 	glCallList(g_pawnID);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0.25, 0.5, -1.0);
+	glTranslatef(pawnC[5].x, pawnC[5].y, pawnC[5].z);
 	glRotatef(90.0, 0.0, 0.0, -90.0);
 	glScalef(0.03, 0.03, 0.03);
 	glCallList(g_pawnID);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0.25, 1.0, -1.0);
+	glTranslatef(pawnC[6].x, pawnC[6].y, pawnC[6].z);
 	glRotatef(90.0, 0.0, 0.0, -90.0);
 	glScalef(0.03, 0.03, 0.03);
 	glCallList(g_pawnID);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0.25, 1.5, -1.0);
+	glTranslatef(pawnC[7].x, pawnC[7].y, pawnC[7].z);
 	glRotatef(90.0, 0.0, 0.0, -90.0);
 	glScalef(0.03, 0.03, 0.03);
 	glCallList(g_pawnID);
@@ -532,7 +548,7 @@ void pawn_move() {
 }
 void king_move() {
 	glPushMatrix();
-	glTranslatef(kingX, kingY, kingZ);
+	glTranslatef(kingC.x, kingC.y, kingC.z);
 	glRotatef(90.0, 0.0, 0.0, -90.0);
 	glScalef(0.03, 0.03, 0.03);
 	glCallList(g_kingID);
@@ -540,7 +556,7 @@ void king_move() {
 }
 void queen_move() {
 	glPushMatrix();
-	glTranslatef(queenX, queenY, queenZ);
+	glTranslatef(queenC.x, queenC.y, queenC.z);
 	glRotatef(90.0, 0.0, 0.0, -90.0);
 	glScalef(0.03, 0.03, 0.03);
 	glCallList(g_queenID);
@@ -548,14 +564,14 @@ void queen_move() {
 }
 void rook_move() {
 	glPushMatrix();
-	glTranslatef(rookX[0], rookY[0], rookZ[0]);
+	glTranslatef(rookC[0].x, rookC[0].y, rookC[0].z);
 	glRotatef(90.0, 0.0, 0.0, -90.0);
 	glScalef(0.03, 0.03, 0.03);
 	glCallList(g_rookID);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(rookX[1], rookY[1], rookZ[1]);
+	glTranslatef(rookC[1].x, rookC[1].y, rookC[1].z);
 	glRotatef(90.0, 0.0, 0.0, -90.0);
 	glScalef(0.03, 0.03, 0.03);
 	glCallList(g_rookID);
@@ -563,14 +579,14 @@ void rook_move() {
 }
 void bishop_move() {
 	glPushMatrix();
-	glTranslatef(bishopX[0], bishopY[0], bishopZ[0]);
+	glTranslatef(bishopC[0].x, bishopC[0].y, bishopC[0].z);
 	glRotatef(90.0, 0.0, 0.0, -90.0);
 	glScalef(0.03, 0.03, 0.03);
 	glCallList(g_bishopID);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(bishopX[1], bishopY[1], bishopZ[1]);
+	glTranslatef(bishopC[1].x, bishopC[1].y, bishopC[1].z);
 	glRotatef(90.0, 0.0, 0.0, -90.0);
 	glScalef(0.03, 0.03, 0.03);
 	glCallList(g_bishopID);
@@ -578,14 +594,14 @@ void bishop_move() {
 }
 void knight_move() {
 	glPushMatrix();
-	glTranslatef(knightX[0], knightY[0], knightZ[0]);
+	glTranslatef(knightC[0].x, knightC[0].y, knightC[0].z);
 	glRotatef(90.0, 0.0, 0.0, -90.0);
 	glScalef(0.03, 0.03, 0.03);
 	glCallList(g_KnightID);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(knightX[1], knightY[1], knightZ[1]);
+	glTranslatef(knightC[1].x, knightC[1].y, knightC[1].z);
 	glRotatef(90.0, 0.0, 0.0, -90.0);
 	glScalef(0.03, 0.03, 0.03);
 	glCallList(g_KnightID);
@@ -672,79 +688,151 @@ void SpecialKey(int key, int x, int y) {
 
 	case GLUT_KEY_F1:		
 		if (moving() == 1) {
-			kingX += 0.25;
+			kingC.x += 0.25;
 			temp = 1;
 		}
 		else if (moving() == 2) {
-			queenX += 0.25;
+			queenC.x += 0.25;
 			temp = 2;
 		}
 		else if (moving() == 3) {
-			bishopX[0] += 0.25;
+			bishopC[0].x += 0.25;
 			temp = 3;
 		}
 		else if (moving() == 4) {
-			bishopX[1] += 0.25;
+			bishopC[1].x += 0.25;
 			temp = 4;
 		}
 		else if (moving() == 5) {
-			rookX[0] += 0.25;
+			rookC[0].x += 0.25;
 			temp = 5;
 		}
 		else if (moving() == 6) {
-			rookX[1] += 0.25;
+			rookC[1].x += 0.25;
 			temp = 6;
 		}
 		else if (moving() == 7) {
-			knightX[0] += 0.25;
+			knightC[0].x += 0.25;
 			temp = 7;
 		}
 		else if (moving() == 8) {
-			knightX[1] += 0.25;
+			knightC[1].x += 0.25;
 			temp = 8;
+		}
+		else if (moving() == 9) {
+			pawnC[0].x += 0.25;
+			temp = 9;
+		}
+		else if (moving() == 10) {
+			pawnC[1].x += 0.25;
+			temp = 10;
+		}
+		else if (moving() == 11) {
+			pawnC[2].x += 0.25;
+			temp = 11;
+		}
+		else if (moving() == 12) {
+			pawnC[3].x += 0.25;
+			temp = 12;
+		}
+		else if (moving() == 13) {
+			pawnC[4].x += 0.25;
+			temp = 13;
+		}
+		else if (moving() == 14) {
+			pawnC[5].x += 0.25;
+			temp = 14;
+		}
+		else if (moving() == 15) {
+			pawnC[6].x += 0.25;
+			temp = 15;
+		}
+		else if (moving() == 16) {
+			pawnC[7].x += 0.25;
+			temp = 16;
 		}
 		break;
 
 	case GLUT_KEY_F2:
 		if (temp == 1) {
-			kingX -= 0.25;
-			kingY = coneY;
-			kingZ = coneZ;
+			kingC.x -= 0.25;
+			kingC.y = coneC.y;
+			kingC.z = coneC.z;
 		}
 		else if (temp == 2) {
-			queenX -= 0.25;
-			queenY = coneY;
-			queenZ = coneZ;
+			queenC.x -= 0.25;
+			queenC.y = coneC.y;
+			queenC.z = coneC.z;
 		}
 		else if (temp == 3) {
-			bishopX[0] -= 0.25;
-			bishopY[0] = coneY;
-			bishopZ[0] = coneZ;
+			bishopC[0].x -= 0.25;
+			bishopC[0].y = coneC.y;
+			bishopC[0].z = coneC.z;
 		}
 		else if (temp == 4) {
-			bishopX[1] -= 0.25;
-			bishopY[1] = coneY;
-			bishopZ[1] = coneZ;
+			bishopC[1].x -= 0.25;
+			bishopC[1].y = coneC.y;
+			bishopC[1].z = coneC.y;
 		}
 		else if (temp == 5) {
-			rookX[0] -= 0.25;
-			rookY[0] = coneY;
-			rookZ[0] = coneZ;
+			rookC[0].x -= 0.25;
+			rookC[0].y = coneC.y;
+			rookC[0].z = coneC.z;
 		}
 		else if (temp == 6) {
-			rookX[1] -= 0.25;
-			rookY[1] = coneY;
-			rookZ[1] = coneZ;
+			rookC[1].x -= 0.25;
+			rookC[1].y = coneC.y;
+			rookC[1].z = coneC.z;
 		}
 		else if (temp == 7) {
-			knightX[0] -= 0.25;
-			knightY[0] = coneY;
-			knightZ[0] = coneZ;
+			knightC[0].x -= 0.25;
+			knightC[0].y = coneC.y;
+			knightC[0].z = coneC.z;
 		}
 		else if (temp == 8) {
-			knightX[1] -= 0.25;
-			knightY[1] = coneY;
-			knightZ[1] = coneZ;
+			knightC[1].x -= 0.25;
+			knightC[1].y = coneC.y;
+			knightC[1].z = coneC.z;
+		}
+		else if (temp == 9) {
+			pawnC[0].x -= 0.25;
+			pawnC[0].y = coneC.y;
+			pawnC[0].z = coneC.z;
+		}
+		else if (temp == 10) {
+			pawnC[1].x -= 0.25;
+			pawnC[1].y = coneC.y;
+			pawnC[1].z = coneC.z;
+		}
+		else if (temp == 11) {
+			pawnC[2].x -= 0.25;
+			pawnC[2].y = coneC.y;
+			pawnC[2].z = coneC.z;
+		}
+		else if (temp == 12) {
+			pawnC[3].x -= 0.25;
+			pawnC[3].y = coneC.y;
+			pawnC[3].z = coneC.z;
+		}
+		else if (temp == 13) {
+			pawnC[4].x -= 0.25;
+			pawnC[4].y = coneC.y;
+			pawnC[4].z = coneC.z;
+		}
+		else if (temp == 14) {
+			pawnC[5].x -= 0.25;
+			pawnC[5].y = coneC.y;
+			pawnC[5].z = coneC.z;
+		}
+		else if (temp == 15) {
+			pawnC[6].x -= 0.25;
+			pawnC[6].y = coneC.y;
+			pawnC[6].z = coneC.z;
+		}
+		else if (temp == 16) {
+			pawnC[7].x -= 0.25;
+			pawnC[7].y = coneC.y;
+			pawnC[7].z = coneC.z;
 		}
 		
 		break;
@@ -762,13 +850,13 @@ void SpecialKey(int key, int x, int y) {
 
 void MyKey(unsigned char key, int x, int y) {
 	switch (key) {
-	case 'w':	coneZ += 0.5;
+	case 'w':	coneC.z += 0.5;
 		break;
-	case 's':	coneZ -= 0.5;
+	case 's':	coneC.z -= 0.5;
 		break;
-	case 'a':	coneY -= 0.5;
+	case 'a':	coneC.y -= 0.5;
 		break;
-	case 'd':	coneY += 0.5;
+	case 'd':	coneC.y += 0.5;
 		break;
 
 	default: break;
