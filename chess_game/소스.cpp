@@ -460,6 +460,8 @@ struct coordinate kingCircle_front, kingCircle_behind, kingCircle_left, kingCirc
 struct coordinate rookCircle_front[8], rookCircle_right[8], rookCircle_left[8], rookCircle_behind[8];
 struct coordinate pawnCircle_front[2], pawnCircle_right, pawnCircle_left;
 struct coordinate queenCircle_front[8], queenCircle_right[8], queenCircle_left[8], queenCircle_behind[8], queenCircle_left_u[8], queenCircle_left_d[8], queenCircle_right_u[8], queenCircle_right_d[8];
+struct coordinate bishopCircle_left_u[8], bishopCircle_left_d[8], bishopCircle_right_u[8], bishopCircle_right_d[8];
+struct coordinate knightCircle_front_l, knightCircle_front_r, knightCircle_left_u, knightCircle_left_d, knightCircle_right_u, knightCircle_right_d, knightCircle_behind_r, knightCircle_behind_l;
 int pawn_moved[8] = { 0 };
 
 
@@ -553,14 +555,60 @@ void chessman_move(int temp) {
                 movechs(queenCircle_right_d[i].y, queenCircle_right_d[i].z);
                 break;
             }
-            else if (i == 9) {
+            else if (i == 7) {
                 movechs(queenC.y, queenC.z);
             }
         }
     }
-    else if (temp == 5 || temp == 6) {
-        
+    else if (temp == 3 || temp == 4) { // ºñ¼ó
+        for (int i = 0; i < 8; i++) {
+            if (coneC.y == bishopCircle_left_u[i].y && coneC.z == bishopCircle_left_u[i].z) {
+                movechs(bishopCircle_left_u[i].y, bishopCircle_left_u[i].z);
+                break;
+            }
+            else if (coneC.y == bishopCircle_left_d[i].y && coneC.z == bishopCircle_left_d[i].z) {
+                movechs(bishopCircle_left_d[i].y, bishopCircle_left_d[i].z);
+                break;
+            }
+            else if (coneC.y == bishopCircle_right_u[i].y && coneC.z == bishopCircle_right_u[i].z) {
+                movechs(bishopCircle_right_u[i].y, bishopCircle_right_u[i].z);
+                break;
+            }
+            else if (coneC.y == bishopCircle_right_d[i].y && coneC.z == bishopCircle_right_d[i].z) {
+                movechs(bishopCircle_right_d[i].y, bishopCircle_right_d[i].z);
+                break;
+            }
+            else if (i == 7) {
+                movechs(bishopC[temp % 3].y, bishopC[temp % 3].z);
+            }
+        }
     }
+    else if (temp == 5 || temp == 6) { // ·è
+        for (int i = 0; i < 8; i++) {
+            if (coneC.y == rookCircle_front[i].y && coneC.z == rookCircle_front[i].z) {
+                movechs(rookCircle_front[i].y, rookCircle_front[i].z);
+                break;
+            }
+            else if (coneC.y == rookCircle_right[i].y && coneC.z == rookCircle_right[i].z) {
+                movechs(rookCircle_right[i].y, rookCircle_right[i].z);
+                break;
+            }
+            else if (coneC.y == rookCircle_left[i].y && coneC.z == rookCircle_left[i].z) {
+                movechs(rookCircle_left[i].y, rookCircle_left[i].z);
+                break;
+            }
+            else if (coneC.y == rookCircle_behind[i].y && coneC.z == rookCircle_behind[i].z) {
+                movechs(rookCircle_behind[i].y, rookCircle_behind[i].z);
+                break;
+            }
+            else if (i == 7) {
+                movechs(rookC[temp % 5].y, rookC[temp % 5].z);
+            }
+        }
+    }
+   // else if (temp == 7 || temp == 8) { // ³ªÀÌÆ®
+    
+   // }
     else if (temp >= 9 && temp <= 16) {
         if (coneC.y == pawnCircle_front[0].y && coneC.z == pawnCircle_front[0].z) {
             movechs(pawnCircle_front[0].y, pawnCircle_front[0].z);
@@ -641,104 +689,6 @@ void move_King_Circle() {
         glPopMatrix();
     }
 }
-void move_Pawn_Circle(int x) {
-    float a = 0.5;
-    float b = 1.0;
-    pawnCircle_front[0].x = a;
-    pawnCircle_front[0].y = pawnC[x].y;
-    pawnCircle_front[0].z = pawnC[x].z + a;
-
-    pawnCircle_front[1].x = a;
-    pawnCircle_front[1].y = pawnC[x].y;
-    pawnCircle_front[1].z = pawnC[x].z + b;
-
-    pawnCircle_left.x = a;
-    pawnCircle_left.y = pawnC[x].y - a;
-    pawnCircle_left.z = pawnC[x].z;
-
-    pawnCircle_right.x = a;
-    pawnCircle_right.y = pawnC[x].y + a;
-    pawnCircle_right.z = pawnC[x].z;
-
-    if (pawnC[x].y + a <= 1.5) {
-        glPushMatrix();
-        glTranslatef(pawnCircle_right.x, pawnCircle_right.y, pawnCircle_right.z);
-        draw_move_Circle();
-        glPopMatrix();
-    }
-    if (pawnC[x].y - a >= -2) {
-        glPushMatrix();
-        glTranslatef(pawnCircle_left.x, pawnCircle_left.y, pawnCircle_left.z);
-        draw_move_Circle();
-        glPopMatrix();
-    }
-    if (pawnC[x].z + a <= 2) {
-        glPushMatrix();
-        glTranslatef(pawnCircle_front[0].x, pawnCircle_front[0].y, pawnCircle_front[0].z);
-        draw_move_Circle();
-        glPopMatrix();
-        if (pawn_moved[x] == 0) {
-            glPushMatrix();
-            glTranslatef(pawnCircle_front[1].x, pawnCircle_front[1].y, pawnCircle_front[1].z);
-            draw_move_Circle();
-            glPopMatrix();
-        }
-    }
-}
-void move_Rook_Circle(int x) {
-    float a = 0.5;
-    float b = 0.5;
-    for (int i = 0; i < 8; i++) {
-        rookCircle_front[i].x = a;
-        rookCircle_front[i].y = rookC[x].y;
-        rookCircle_front[i].z = rookC[x].z + b;
-
-        rookCircle_behind[i].x = a;
-        rookCircle_behind[i].y = rookC[x].y;
-        rookCircle_behind[i].z = rookC[x].z - b;
-
-        rookCircle_right[i].x = a;
-        rookCircle_right[i].y = rookC[x].y + b;
-        rookCircle_right[i].z = rookC[x].z;
-
-        rookCircle_left[i].x = a;
-        rookCircle_left[i].y = rookC[x].y - b;
-        rookCircle_left[i].z = rookC[x].z;
-        b += 0.5;
-    }
-    int j = 0;
-    for (float i = 0.5; rookC[x].y + i <= 1.5; i += 0.5) {
-        glPushMatrix();
-        glTranslatef(rookCircle_right[j].x, rookCircle_right[j].y, rookCircle_right[j].z);
-        draw_move_Circle();
-        glPopMatrix();
-        j++;
-    }
-    j = 0;
-    for (float i = 0.5; rookC[x].y - i >= -2; i += 0.5) {
-        glPushMatrix();
-        glTranslatef(rookCircle_left[j].x, rookCircle_left[j].y, rookCircle_left[j].z);
-        draw_move_Circle();
-        glPopMatrix();
-        j++;
-    }
-    j = 0;
-    for (float i = 0.5; rookC[x].z + i <= 2; i += 0.5) {
-        glPushMatrix();
-        glTranslatef(rookCircle_front[j].x, rookCircle_front[j].y, rookCircle_front[j].z);
-        draw_move_Circle();
-        glPopMatrix();
-        j++;
-    }
-    j = 0;
-    for (float i = 0.5; rookC[x].z - i >= -1.5; i += 0.5) {
-        glPushMatrix();
-        glTranslatef(rookCircle_behind[j].x, rookCircle_behind[j].y, rookCircle_behind[j].z);
-        draw_move_Circle();
-        glPopMatrix();
-        j++;
-    }
-}
 void move_Queen_Circle() {
     float a = 0.5;
     float b = 0.5;
@@ -817,6 +767,209 @@ void move_Queen_Circle() {
         draw_move_Circle();
         glPopMatrix();
         j++;
+    }
+}
+void move_Bishop_Circle(int x) {
+    float a = 0.5;
+    float b = 0.5;
+    int  j = 0;
+    for (int i = 0; i < 8; i++) {
+        bishopCircle_left_u[i] = { a, bishopC[x].y - b, bishopC[x].z + b };
+        bishopCircle_left_d[i] = { a, bishopC[x].y - b, bishopC[x].z - b };
+        bishopCircle_right_u[i] = { a, bishopC[x].y + b, bishopC[x].z + b };
+        bishopCircle_right_d[i] = { a, bishopC[x].y + b, bishopC[x].z - b };
+
+        b += 0.5;
+    }
+    for (float i = 0.5; bishopC[x].y - i >= -2 && bishopC[x].z - i >= -1.5; i += 0.5) {
+        glPushMatrix();
+        glTranslatef(bishopCircle_left_d[j].x, bishopCircle_left_d[j].y, bishopCircle_left_d[j].z);
+        draw_move_Circle();
+        glPopMatrix();
+        j++;
+    }
+    j = 0;
+    for (float i = 0.5; bishopC[x].y + i <= 1.5 && bishopC[x].z - i >= -1.5; i += 0.5) {
+        glPushMatrix();
+        glTranslatef(bishopCircle_right_d[j].x, bishopCircle_right_d[j].y, bishopCircle_right_d[j].z);
+        draw_move_Circle();
+        glPopMatrix();
+        j++;
+    }
+    j = 0;
+    for (float i = 0.5; bishopC[x].y - i >= -2 && bishopC[x].z + i <= 2; i += 0.5) {
+        glPushMatrix();
+        glTranslatef(bishopCircle_left_u[j].x, bishopCircle_left_u[j].y, bishopCircle_left_u[j].z);
+        draw_move_Circle();
+        glPopMatrix();
+        j++;
+    }
+    j = 0;
+    for (float i = 0.5; bishopC[x].y + i <= 1.5 && bishopC[x].z + i <= 2; i += 0.5) {
+        glPushMatrix();
+        glTranslatef(bishopCircle_right_u[j].x, bishopCircle_right_u[j].y, bishopCircle_right_u[j].z);
+        draw_move_Circle();
+        glPopMatrix();
+        j++;
+    }
+}
+void move_Rook_Circle(int x) {
+    float a = 0.5;
+    float b = 0.5;
+    for (int i = 0; i < 8; i++) {
+        rookCircle_front[i].x = a;
+        rookCircle_front[i].y = rookC[x].y;
+        rookCircle_front[i].z = rookC[x].z + b;
+
+        rookCircle_behind[i].x = a;
+        rookCircle_behind[i].y = rookC[x].y;
+        rookCircle_behind[i].z = rookC[x].z - b;
+
+        rookCircle_right[i].x = a;
+        rookCircle_right[i].y = rookC[x].y + b;
+        rookCircle_right[i].z = rookC[x].z;
+
+        rookCircle_left[i].x = a;
+        rookCircle_left[i].y = rookC[x].y - b;
+        rookCircle_left[i].z = rookC[x].z;
+        b += 0.5;
+    }
+    int j = 0;
+    for (float i = 0.5; rookC[x].y + i <= 1.5; i += 0.5) {
+        glPushMatrix();
+        glTranslatef(rookCircle_right[j].x, rookCircle_right[j].y, rookCircle_right[j].z);
+        draw_move_Circle();
+        glPopMatrix();
+        j++;
+    }
+    j = 0;
+    for (float i = 0.5; rookC[x].y - i >= -2; i += 0.5) {
+        glPushMatrix();
+        glTranslatef(rookCircle_left[j].x, rookCircle_left[j].y, rookCircle_left[j].z);
+        draw_move_Circle();
+        glPopMatrix();
+        j++;
+    }
+    j = 0;
+    for (float i = 0.5; rookC[x].z + i <= 2; i += 0.5) {
+        glPushMatrix();
+        glTranslatef(rookCircle_front[j].x, rookCircle_front[j].y, rookCircle_front[j].z);
+        draw_move_Circle();
+        glPopMatrix();
+        j++;
+    }
+    j = 0;
+    for (float i = 0.5; rookC[x].z - i >= -1.5; i += 0.5) {
+        glPushMatrix();
+        glTranslatef(rookCircle_behind[j].x, rookCircle_behind[j].y, rookCircle_behind[j].z);
+        draw_move_Circle();
+        glPopMatrix();
+        j++;
+    }
+}
+void move_Knight_Circle(int x) {
+    float a = 0.5;
+    float b = 1.0;
+    knightCircle_front_r = { a, knightC[x].y + a, knightC[x].z + b };
+    knightCircle_behind_r = { a, knightC[x].y + a, knightC[x].z - b };
+    knightCircle_front_l = { a, knightC[x].y - a, knightC[x].z + b };
+    knightCircle_behind_l = { a, knightC[x].y - a, knightC[x].z - b };
+    knightCircle_left_u = { a, knightC[x].y - b, knightC[x].z + a };
+    knightCircle_right_u = { a, knightC[x].y + b, knightC[x].z + a };
+    knightCircle_left_d = { a, knightC[x].y - b, knightC[x].z - a };
+    knightCircle_right_d = { a, knightC[x].y + b, knightC[x].z - a };
+
+    if (knightCircle_front_r.y <= 1.5 && knightCircle_front_r.z <= 2) {
+        glPushMatrix();
+        glTranslatef(knightCircle_front_r.x, knightCircle_front_r.y, knightCircle_front_r.z);
+        draw_move_Circle();
+        glPopMatrix();
+    }
+    if (knightCircle_behind_r.y <= 1.5 && knightCircle_behind_r.z >= -1.5) {
+        glPushMatrix();
+        glTranslatef(knightCircle_behind_r.x, knightCircle_behind_r.y, knightCircle_behind_r.z);
+        draw_move_Circle();
+        glPopMatrix();
+    }
+    if (knightCircle_front_l.y >= -2 && knightCircle_front_l.z <= 2) {
+        glPushMatrix();
+        glTranslatef(knightCircle_front_l.x, knightCircle_front_l.y, knightCircle_front_l.z);
+        draw_move_Circle();
+        glPopMatrix();
+    }
+    if (knightCircle_behind_l.y >= -2 && knightCircle_behind_l.z >= -1.5) {
+        glPushMatrix();
+        glTranslatef(knightCircle_behind_l.x, knightCircle_behind_l.y, knightCircle_behind_l.z);
+        draw_move_Circle();
+        glPopMatrix();
+    }
+    if (knightCircle_left_u.z <= 2 && knightCircle_left_u.y >= -2) {
+        glPushMatrix();
+        glTranslatef(knightCircle_left_u.x, knightCircle_left_u.y, knightCircle_left_u.z);
+        draw_move_Circle();
+        glPopMatrix();
+    }
+    if (knightCircle_right_u.z <= 2 && knightCircle_right_u.y <= 1.5) {
+        glPushMatrix();
+        glTranslatef(knightCircle_right_u.x, knightCircle_right_u.y, knightCircle_right_u.z);
+        draw_move_Circle();
+        glPopMatrix();
+    }
+    if (knightCircle_left_d.z >= -1.5 && knightCircle_left_d.y >= -2) {
+        glPushMatrix();
+        glTranslatef(knightCircle_left_d.x, knightCircle_left_d.y, knightCircle_left_d.z);
+        draw_move_Circle();
+        glPopMatrix();
+    }
+    if (knightCircle_right_d.z >= -1.5 && knightCircle_right_d.y <= 1.5) {
+        glPushMatrix();
+        glTranslatef(knightCircle_right_d.x, knightCircle_right_d.y, knightCircle_right_d.z);
+        draw_move_Circle();
+        glPopMatrix();
+    }
+}
+void move_Pawn_Circle(int x) {
+    float a = 0.5;
+    float b = 1.0;
+    pawnCircle_front[0].x = a;
+    pawnCircle_front[0].y = pawnC[x].y;
+    pawnCircle_front[0].z = pawnC[x].z + a;
+
+    pawnCircle_front[1].x = a;
+    pawnCircle_front[1].y = pawnC[x].y;
+    pawnCircle_front[1].z = pawnC[x].z + b;
+
+    pawnCircle_left.x = a;
+    pawnCircle_left.y = pawnC[x].y - a;
+    pawnCircle_left.z = pawnC[x].z;
+
+    pawnCircle_right.x = a;
+    pawnCircle_right.y = pawnC[x].y + a;
+    pawnCircle_right.z = pawnC[x].z;
+
+    if (pawnC[x].y + a <= 1.5) {
+        glPushMatrix();
+        glTranslatef(pawnCircle_right.x, pawnCircle_right.y, pawnCircle_right.z);
+        draw_move_Circle();
+        glPopMatrix();
+    }
+    if (pawnC[x].y - a >= -2) {
+        glPushMatrix();
+        glTranslatef(pawnCircle_left.x, pawnCircle_left.y, pawnCircle_left.z);
+        draw_move_Circle();
+        glPopMatrix();
+    }
+    if (pawnC[x].z + a <= 2) {
+        glPushMatrix();
+        glTranslatef(pawnCircle_front[0].x, pawnCircle_front[0].y, pawnCircle_front[0].z);
+        draw_move_Circle();
+        glPopMatrix();
+        if (pawn_moved[x] == 0) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front[1].x, pawnCircle_front[1].y, pawnCircle_front[1].z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
     }
 }
 
@@ -1009,11 +1162,23 @@ void display(void) {
     else if (temp == 2) {
         move_Queen_Circle();
     }
+    else if (temp == 3) {
+        move_Bishop_Circle(0);
+    }
+    else if (temp == 4) {
+        move_Bishop_Circle(1);
+    }
     else if (temp == 5) {
         move_Rook_Circle(0);
     }
     else if (temp == 6) {
         move_Rook_Circle(1);
+    }
+    else if (temp == 7) {
+        move_Knight_Circle(0);
+    }
+    else if (temp == 8) {
+        move_Knight_Circle(1);
     }
     else if (temp >= 9 && temp <= 16) {
         move_Pawn_Circle(temp % 9);
