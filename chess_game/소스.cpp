@@ -483,10 +483,171 @@ void movechs(float y, float z) {
     if (turn == 0) {
         coneC.y = y;
         coneC.z = z;
+
+        if (y == pawnD[0].y && z == pawnD[0].z) {
+            pawnD[0].y = 100;
+            pawnD[0].z = 100;
+        }
+
+        else if (y == pawnD[1].y && z == pawnD[1].z) {
+            pawnD[1].y = 100;
+            pawnD[1].z = 100;
+        }
+
+        else if (y == pawnD[2].y && z == pawnD[2].z) {
+            pawnD[2].y = 100;
+            pawnD[2].z = 100;
+        }
+
+        else if (y == pawnD[3].y && z == pawnD[3].z) {
+            pawnD[3].y = 100;
+            pawnD[3].z = 100;
+        }
+
+        else if (y == pawnD[4].y && z == pawnD[4].z) {
+            pawnD[4].y = 100;
+            pawnD[4].z = 100;
+        }
+
+        else if (y == pawnD[5].y && z == pawnD[5].z) {
+            pawnD[5].y = 100;
+            pawnD[5].z = 100;
+        }
+
+        else if (y == pawnD[6].y && z == pawnD[6].z) {
+            pawnD[6].y = 100;
+            pawnD[6].z = 100;
+        }
+
+        else if (y == pawnD[7].y && z == pawnD[7].z) {
+            pawnD[7].y = 100;
+            pawnD[7].z = 100;
+        }
+
+        else if (y == kingD.y && z == kingD.z) {
+            kingD.y = 100;
+            kingD.z = 100;
+        }
+
+        else if (y == queenD.y && z == queenD.z) {
+            queenD.y = 100;
+            queenD.z = 100;
+        }
+
+        else if (y == bishopD[0].y && z == bishopD[0].z) {
+            bishopD[0].y = 100;
+            bishopD[0].z = 100;
+        }
+
+        else if (y == bishopD[1].y && z == bishopD[1].z) {
+            bishopD[1].y = 100;
+            bishopD[1].z = 100;
+        }
+
+        else if (y == knightD[0].y && z == knightD[0].z) {
+            knightD[0].y = 100;
+            knightD[0].z = 100;
+        }
+
+        else if (y == knightD[1].y && z == knightD[1].z) {
+            knightD[1].y = 100;
+            knightD[1].z = 100;
+        }
+
+        else if (y == rookD[0].y && z == rookD[0].z) {
+            rookD[0].y = 100;
+            rookD[0].z = 100;
+        }
+        
+        else if (y == rookD[1].y && z == rookD[1].z) {
+            rookD[1].y = 100;
+            rookD[1].z = 100;
+        }
     }
+
     else {
         coneD.y = y;
         coneD.z = z;
+
+        if (y == pawnC[0].y && z == pawnC[0].z) {
+            pawnC[0].y = 100;
+            pawnC[0].z = 100;
+        }
+
+        else if (y == pawnC[1].y && z == pawnC[1].z) {
+            pawnC[1].y = 100;
+            pawnC[1].z = 100;
+        }
+
+        else if (y == pawnC[2].y && z == pawnC[2].z) {
+            pawnC[2].y = 100;
+            pawnC[2].z = 100;
+        }
+
+        else if (y == pawnC[3].y && z == pawnC[3].z) {
+            pawnC[3].y = 100;
+            pawnC[3].z = 100;
+        }
+
+        else if (y == pawnC[4].y && z == pawnC[4].z) {
+            pawnC[4].y = 100;
+            pawnC[4].z = 100;
+        }
+
+        else if (y == pawnC[5].y && z == pawnC[5].z) {
+            pawnC[5].y = 100;
+            pawnC[5].z = 100;
+        }
+
+        else if (y == pawnC[6].y && z == pawnC[6].z) {
+            pawnC[6].y = 100;
+            pawnC[6].z = 100;
+        }
+
+        else if (y == pawnC[7].y && z == pawnC[7].z) {
+            pawnC[7].y = 100;
+            pawnC[7].z = 100;
+        }
+
+        else if (y == kingC.y && z == kingC.z) {
+            kingC.y = 100;
+            kingC.z = 100;
+        }
+
+        else if (y == queenC.y && z == queenC.z) {
+            queenC.y = 100;
+            queenC.z = 100;
+        }
+
+        else if (y == bishopC[0].y && z == bishopC[0].z) {
+            bishopC[0].y = 100;
+            bishopC[0].z = 100;
+        }
+
+        else if (y == bishopC[1].y && z == bishopC[1].z) {
+            bishopC[1].y = 100;
+            bishopC[1].z = 100;
+        }
+
+        else if (y == knightC[0].y && z == knightC[0].z) {
+            knightC[0].y = 100;
+            knightC[0].z = 100;
+        }
+
+        else if (y == knightC[1].y && z == knightC[1].z) {
+            knightC[1].y = 100;
+            knightC[1].z = 100;
+        }
+
+        else if (y == rookC[0].y && z == rookC[0].z) {
+            rookC[0].y = 100;
+            rookC[0].z = 100;
+        }
+
+        else if (y == rookC[1].y && z == rookC[1].z) {
+            rookC[1].y = 100;
+            rookC[1].z = 100;
+        }
     }
 }
 
@@ -677,8 +838,8 @@ void chessman_move(int temp) {
         }
         else if (temp >= 9 && temp <= 16) {
             if (coneC.y == pawnCircle_front[0].y && coneC.z == pawnCircle_front[0].z) {
-                movechs(pawnCircle_front[0].y, pawnCircle_front[0].z); turn = 1;
-                pawn_moved_W[temp % 9]++;
+                 movechs(pawnCircle_front[0].y, pawnCircle_front[0].z); turn = 1;
+                 pawn_moved_W[temp % 9]++;
             }
             else if (coneC.y == pawnCircle_front[1].y && coneC.z == pawnCircle_front[1].z && pawn_moved_W[pawnchk] == 0) {
                 movechs(pawnCircle_front[1].y, pawnCircle_front[1].z); turn = 1;
@@ -7377,9 +7538,6 @@ void SpecialKey(int key, int x, int y) {
             pawnD[temp % 25].z = coneD.z;
             temp = 0;
         }
-
-        cout << "턴 " << turn << endl;
-        cout << "기수 번호 : " << moving() << endl;
         break;
 
     default:            break;
@@ -7396,44 +7554,55 @@ void SpecialKey(int key, int x, int y) {
 void MyKey(unsigned char key, int x, int y) {
     switch (key) {
     case 'w': {
-        if (coneC.z < 2 || coneD.z < 2) {
-            if (turn == 0) {
+        if (turn == 0) {
+            if (coneC.z < 2) {
                 coneC.z += 0.5;
             }
-            else {
+        }
+        else {
+            if (coneD.z < 2) {
                 coneD.z += 0.5;
             }
         }
         break;
     }
     case 's': {
-        if (coneC.z > -1.5 || coneD.z > -1.5) {
-            if (turn == 0) {
+        if (turn == 0) {
+            if (coneC.z > -1.5) {
                 coneC.z -= 0.5;
             }
-            else {
+        }
+        else {
+            if (coneD.z > -1.5) {
                 coneD.z -= 0.5;
             }
         }
         break;
     }
     case 'a': {
-        if (coneC.y > -2 || coneD.y > -2) {
-            if (turn == 0) {
+        if (turn == 0) {
+            if (coneC.y > -2) {
                 coneC.y -= 0.5;
             }
             else {
                 coneD.y -= 0.5;
             }
         }
+        else {
+            if (coneD.y > -2) {
+                coneD.y -= 0.5;
+            }
+        }
         break;
     }
     case 'd': {
-        if (coneC.y < 1.5 || coneD.y < 1.5) {
-            if (turn == 0) {
+        if (turn == 0) {
+            if (coneC.y < 1.5) {
                 coneC.y += 0.5;
             }
-            else {
+        }
+        else {
+            if (coneD.y < 1.5) {
                 coneD.y += 0.5;
             }
         }
