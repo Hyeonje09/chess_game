@@ -538,28 +538,28 @@ void chessman_move(int temp) {
     if (turn == 0) {
         if (temp == 1) {
             if (coneC.y == kingCircle_behind.y && coneC.z == kingCircle_behind.z) {
-                movechs(kingCircle_behind.y, kingCircle_behind.z);
+                movechs(kingCircle_behind.y, kingCircle_behind.z); turn = 1;
             }
             else if (coneC.y == kingCircle_front.y && coneC.z == kingCircle_front.z) {
-                movechs(kingCircle_front.y, kingCircle_front.z);
+                movechs(kingCircle_front.y, kingCircle_front.z); turn = 1;
             }
             else if (coneC.y == kingCircle_left.y && coneC.z == kingCircle_left.z) {
-                movechs(kingCircle_left.y, kingCircle_left.z);
+                movechs(kingCircle_left.y, kingCircle_left.z); turn = 1;
             }
             else if (coneC.y == kingCircle_right.y && coneC.z == kingCircle_right.z) {
-                movechs(kingCircle_right.y, kingCircle_right.z);
+                movechs(kingCircle_right.y, kingCircle_right.z); turn = 1;
             }
             else if (coneC.y == kingCircle_right_u.y && coneC.z == kingCircle_right_u.z) {
-                movechs(kingCircle_right_u.y, kingCircle_right_u.z);
+                movechs(kingCircle_right_u.y, kingCircle_right_u.z); turn = 1;
             }
             else if (coneC.y == kingCircle_right_d.y && coneC.z == kingCircle_right_d.z) {
-                movechs(kingCircle_right_d.y, kingCircle_right_d.z);
+                movechs(kingCircle_right_d.y, kingCircle_right_d.z); turn = 1;
             }
             else if (coneC.y == kingCircle_left_u.y && coneC.z == kingCircle_left_u.z) {
-                movechs(kingCircle_left_u.y, kingCircle_left_u.z);
+                movechs(kingCircle_left_u.y, kingCircle_left_u.z); turn = 1;
             }
             else if (coneC.y == kingCircle_left_d.y && coneC.z == kingCircle_left_d.z) {
-                movechs(kingCircle_left_d.y, kingCircle_left_d.z);
+                movechs(kingCircle_left_d.y, kingCircle_left_d.z); turn = 1;
             }
             else {
                 movechs(kingC.y, kingC.z);
@@ -568,35 +568,35 @@ void chessman_move(int temp) {
         else if (temp == 2) {
             for (int i = 0; i < 8; i++) {
                 if (coneC.y == queenCircle_front[i].y && coneC.z == queenCircle_front[i].z) {
-                    movechs(queenCircle_front[i].y, queenCircle_front[i].z);
+                    movechs(queenCircle_front[i].y, queenCircle_front[i].z); turn = 1;
                     break;
                 }
                 else if (coneC.y == queenCircle_right[i].y && coneC.z == queenCircle_right[i].z) {
-                    movechs(queenCircle_right[i].y, queenCircle_right[i].z);
+                    movechs(queenCircle_right[i].y, queenCircle_right[i].z); turn = 1;
                     break;
                 }
                 else if (coneC.y == queenCircle_left[i].y && coneC.z == queenCircle_left[i].z) {
-                    movechs(queenCircle_left[i].y, queenCircle_left[i].z);
+                    movechs(queenCircle_left[i].y, queenCircle_left[i].z); turn = 1;
                     break;
                 }
                 else if (coneC.y == queenCircle_behind[i].y && coneC.z == queenCircle_behind[i].z) {
-                    movechs(queenCircle_behind[i].y, queenCircle_behind[i].z);
+                    movechs(queenCircle_behind[i].y, queenCircle_behind[i].z); turn = 1;
                     break;
                 }
                 else if (coneC.y == queenCircle_left_u[i].y && coneC.z == queenCircle_left_u[i].z) {
-                    movechs(queenCircle_left_u[i].y, queenCircle_left_u[i].z);
+                    movechs(queenCircle_left_u[i].y, queenCircle_left_u[i].z); turn = 1;
                     break;
                 }
                 else if (coneC.y == queenCircle_left_d[i].y && coneC.z == queenCircle_left_d[i].z) {
-                    movechs(queenCircle_left_d[i].y, queenCircle_left_d[i].z);
+                    movechs(queenCircle_left_d[i].y, queenCircle_left_d[i].z); turn = 1;
                     break;
                 }
                 else if (coneC.y == queenCircle_right_u[i].y && coneC.z == queenCircle_right_u[i].z) {
-                    movechs(queenCircle_right_u[i].y, queenCircle_right_u[i].z);
+                    movechs(queenCircle_right_u[i].y, queenCircle_right_u[i].z); turn = 1;
                     break;
                 }
                 else if (coneC.y == queenCircle_right_d[i].y && coneC.z == queenCircle_right_d[i].z) {
-                    movechs(queenCircle_right_d[i].y, queenCircle_right_d[i].z);
+                    movechs(queenCircle_right_d[i].y, queenCircle_right_d[i].z); turn = 1;
                     break;
                 }
                 else if (i == 7) {
@@ -607,19 +607,19 @@ void chessman_move(int temp) {
         else if (temp == 3 || temp == 4) { // ºñ¼ó
             for (int i = 0; i < 8; i++) {
                 if (coneC.y == bishopCircle_left_u[i].y && coneC.z == bishopCircle_left_u[i].z) {
-                    movechs(bishopCircle_left_u[i].y, bishopCircle_left_u[i].z);
+                    movechs(bishopCircle_left_u[i].y, bishopCircle_left_u[i].z); turn = 1;
                     break;
                 }
                 else if (coneC.y == bishopCircle_left_d[i].y && coneC.z == bishopCircle_left_d[i].z) {
-                    movechs(bishopCircle_left_d[i].y, bishopCircle_left_d[i].z);
+                    movechs(bishopCircle_left_d[i].y, bishopCircle_left_d[i].z); turn = 1;
                     break;
                 }
                 else if (coneC.y == bishopCircle_right_u[i].y && coneC.z == bishopCircle_right_u[i].z) {
-                    movechs(bishopCircle_right_u[i].y, bishopCircle_right_u[i].z);
+                    movechs(bishopCircle_right_u[i].y, bishopCircle_right_u[i].z); turn = 1;
                     break;
                 }
                 else if (coneC.y == bishopCircle_right_d[i].y && coneC.z == bishopCircle_right_d[i].z) {
-                    movechs(bishopCircle_right_d[i].y, bishopCircle_right_d[i].z);
+                    movechs(bishopCircle_right_d[i].y, bishopCircle_right_d[i].z); turn = 1;
                     break;
                 }
                 else if (i == 7) {
@@ -630,19 +630,19 @@ void chessman_move(int temp) {
         else if (temp == 5 || temp == 6) { // ·è
             for (int i = 0; i < 8; i++) {
                 if (coneC.y == rookCircle_front[i].y && coneC.z == rookCircle_front[i].z) {
-                    movechs(rookCircle_front[i].y, rookCircle_front[i].z);
+                    movechs(rookCircle_front[i].y, rookCircle_front[i].z); turn = 1;
                     break;
                 }
                 else if (coneC.y == rookCircle_right[i].y && coneC.z == rookCircle_right[i].z) {
-                    movechs(rookCircle_right[i].y, rookCircle_right[i].z);
+                    movechs(rookCircle_right[i].y, rookCircle_right[i].z); turn = 1;
                     break;
                 }
                 else if (coneC.y == rookCircle_left[i].y && coneC.z == rookCircle_left[i].z) {
-                    movechs(rookCircle_left[i].y, rookCircle_left[i].z);
+                    movechs(rookCircle_left[i].y, rookCircle_left[i].z); turn = 1;
                     break;
                 }
                 else if (coneC.y == rookCircle_behind[i].y && coneC.z == rookCircle_behind[i].z) {
-                    movechs(rookCircle_behind[i].y, rookCircle_behind[i].z);
+                    movechs(rookCircle_behind[i].y, rookCircle_behind[i].z); turn = 1;
                     break;
                 }
                 else if (i == 7) {
@@ -652,28 +652,28 @@ void chessman_move(int temp) {
         }
         else if (temp == 7 || temp == 8) { // ³ªÀÌÆ®
             if (coneC.y == knightCircle_front_l.y && coneC.z == knightCircle_front_l.z) {
-                movechs(knightCircle_front_l.y, knightCircle_front_l.z);
+                movechs(knightCircle_front_l.y, knightCircle_front_l.z); turn = 1;
             }
             else if (coneC.y == knightCircle_front_r.y && coneC.z == knightCircle_front_r.z) {
-                movechs(knightCircle_front_r.y, knightCircle_front_r.z);
+                movechs(knightCircle_front_r.y, knightCircle_front_r.z); turn = 1;
             }
             else if (coneC.y == knightCircle_left_u.y && coneC.z == knightCircle_left_u.z) {
-                movechs(knightCircle_left_u.y, knightCircle_left_u.z);
+                movechs(knightCircle_left_u.y, knightCircle_left_u.z); turn = 1;
             }
             else if (coneC.y == knightCircle_left_d.y && coneC.z == knightCircle_left_d.z) {
-                movechs(knightCircle_left_d.y, knightCircle_left_d.z);
+                movechs(knightCircle_left_d.y, knightCircle_left_d.z); turn = 1;
             }
             else if (coneC.y == knightCircle_right_u.y && coneC.z == knightCircle_right_u.z) {
-                movechs(knightCircle_right_u.y, knightCircle_right_u.z);
+                movechs(knightCircle_right_u.y, knightCircle_right_u.z); turn = 1;
             }
             else if (coneC.y == knightCircle_right_d.y && coneC.z == knightCircle_right_d.z) {
-                movechs(knightCircle_right_d.y, knightCircle_right_d.z);
+                movechs(knightCircle_right_d.y, knightCircle_right_d.z); turn = 1;
             }
             else if (coneC.y == knightCircle_behind_r.y && coneC.z == knightCircle_behind_r.z) {
-                movechs(knightCircle_behind_r.y, knightCircle_behind_r.z);
+                movechs(knightCircle_behind_r.y, knightCircle_behind_r.z); turn = 1;
             }
             else if (coneC.y == knightCircle_behind_l.y && coneC.z == knightCircle_behind_l.z) {
-                movechs(knightCircle_behind_l.y, knightCircle_behind_l.z);
+                movechs(knightCircle_behind_l.y, knightCircle_behind_l.z); turn = 1;
             }
             else {
                 movechs(knightC[temp % 7].y, knightC[temp % 7].z);
@@ -681,52 +681,51 @@ void chessman_move(int temp) {
         }
         else if (temp >= 9 && temp <= 16) {
             if (coneC.y == pawnCircle_front[0].y && coneC.z == pawnCircle_front[0].z) {
-                movechs(pawnCircle_front[0].y, pawnCircle_front[0].z);
+                movechs(pawnCircle_front[0].y, pawnCircle_front[0].z); turn = 1;
                 pawn_moved_W[temp % 9]++;
             }
             else if (coneC.y == pawnCircle_front[1].y && coneC.z == pawnCircle_front[1].z && pawn_moved_W[pawnchk] == 0) {
-                movechs(pawnCircle_front[1].y, pawnCircle_front[1].z);
+                movechs(pawnCircle_front[1].y, pawnCircle_front[1].z); turn = 1;
                 pawn_moved_W[temp % 9]++;
             }
             else if (coneC.y == pawnCircle_left.y && coneC.z == pawnCircle_left.z) {
-                movechs(pawnCircle_left.y, pawnCircle_left.z);
+                movechs(pawnCircle_left.y, pawnCircle_left.z); turn = 1;
                 pawn_moved_W[temp % 9]++;
             }
             else if (coneC.y == pawnCircle_right.y && coneC.z == pawnCircle_right.z) {
-                movechs(pawnCircle_right.y, pawnCircle_right.z);
-                pawn_moved_W[temp % 9]++;
+                movechs(pawnCircle_right.y, pawnCircle_right.z); turn = 1;
+                pawn_moved_W[temp % 9]++; 
             }
             else {
                 movechs(pawnC[temp % 9].y, pawnC[temp % 9].z);
             }
         }
-        turn = 1;
     }
     else {
         if (temp == 17) {
             if (coneD.y == kingCircle_behind.y && coneD.z == kingCircle_behind.z) {
-                movechs(kingCircle_behind.y, kingCircle_behind.z);
+                movechs(kingCircle_behind.y, kingCircle_behind.z); turn = 0;
             }
             else if (coneD.y == kingCircle_front.y && coneD.z == kingCircle_front.z) {
-                movechs(kingCircle_front.y, kingCircle_front.z);
+                movechs(kingCircle_front.y, kingCircle_front.z); turn = 0;
             }
             else if (coneD.y == kingCircle_left.y && coneD.z == kingCircle_left.z) {
-                movechs(kingCircle_left.y, kingCircle_left.z);
+                movechs(kingCircle_left.y, kingCircle_left.z); turn = 0;
             }
             else if (coneD.y == kingCircle_right.y && coneD.z == kingCircle_right.z) {
-                movechs(kingCircle_right.y, kingCircle_right.z);
+                movechs(kingCircle_right.y, kingCircle_right.z); turn = 0;
             }
             else if (coneD.y == kingCircle_right_u.y && coneD.z == kingCircle_right_u.z) {
-                movechs(kingCircle_right_u.y, kingCircle_right_u.z);
+                movechs(kingCircle_right_u.y, kingCircle_right_u.z); turn = 0;
             }
             else if (coneD.y == kingCircle_right_d.y && coneD.z == kingCircle_right_d.z) {
-                movechs(kingCircle_right_d.y, kingCircle_right_d.z);
+                movechs(kingCircle_right_d.y, kingCircle_right_d.z); turn = 0;
             }
             else if (coneD.y == kingCircle_left_u.y && coneD.z == kingCircle_left_u.z) {
-                movechs(kingCircle_left_u.y, kingCircle_left_u.z);
-            }
+                movechs(kingCircle_left_u.y, kingCircle_left_u.z); turn = 0;
+            } 
             else if (coneD.y == kingCircle_left_d.y && coneD.z == kingCircle_left_d.z) {
-                movechs(kingCircle_left_d.y, kingCircle_left_d.z);
+                movechs(kingCircle_left_d.y, kingCircle_left_d.z); turn = 0;
             }
             else {
                 movechs(kingD.y, kingD.z);
@@ -735,35 +734,35 @@ void chessman_move(int temp) {
         else if (temp == 18) {
             for (int i = 0; i < 8; i++) {
                 if (coneD.y == queenCircle_front[i].y && coneD.z == queenCircle_front[i].z) {
-                    movechs(queenCircle_front[i].y, queenCircle_front[i].z);
+                    movechs(queenCircle_front[i].y, queenCircle_front[i].z); turn = 0;
                     break;
                 }
                 else if (coneD.y == queenCircle_right[i].y && coneD.z == queenCircle_right[i].z) {
-                    movechs(queenCircle_right[i].y, queenCircle_right[i].z);
+                    movechs(queenCircle_right[i].y, queenCircle_right[i].z); turn = 0;
                     break;
                 }
                 else if (coneD.y == queenCircle_left[i].y && coneD.z == queenCircle_left[i].z) {
-                    movechs(queenCircle_left[i].y, queenCircle_left[i].z);
+                    movechs(queenCircle_left[i].y, queenCircle_left[i].z); turn = 0;
                     break;
                 }
                 else if (coneD.y == queenCircle_behind[i].y && coneD.z == queenCircle_behind[i].z) {
-                    movechs(queenCircle_behind[i].y, queenCircle_behind[i].z);
+                    movechs(queenCircle_behind[i].y, queenCircle_behind[i].z); turn = 0;
                     break;
                 }
                 else if (coneD.y == queenCircle_left_u[i].y && coneD.z == queenCircle_left_u[i].z) {
-                    movechs(queenCircle_left_u[i].y, queenCircle_left_u[i].z);
+                    movechs(queenCircle_left_u[i].y, queenCircle_left_u[i].z); turn = 0;
                     break;
                 }
                 else if (coneD.y == queenCircle_left_d[i].y && coneD.z == queenCircle_left_d[i].z) {
-                    movechs(queenCircle_left_d[i].y, queenCircle_left_d[i].z);
+                    movechs(queenCircle_left_d[i].y, queenCircle_left_d[i].z); turn = 0;
                     break;
                 }
                 else if (coneD.y == queenCircle_right_u[i].y && coneD.z == queenCircle_right_u[i].z) {
-                    movechs(queenCircle_right_u[i].y, queenCircle_right_u[i].z);
+                    movechs(queenCircle_right_u[i].y, queenCircle_right_u[i].z); turn = 0;
                     break;
                 }
                 else if (coneD.y == queenCircle_right_d[i].y && coneD.z == queenCircle_right_d[i].z) {
-                    movechs(queenCircle_right_d[i].y, queenCircle_right_d[i].z);
+                    movechs(queenCircle_right_d[i].y, queenCircle_right_d[i].z); turn = 0;
                     break;
                 }
                 else if (i == 7) {
@@ -774,19 +773,19 @@ void chessman_move(int temp) {
         else if (temp == 19 || temp == 20) { // ºñ¼ó
             for (int i = 0; i < 8; i++) {
                 if (coneD.y == bishopCircle_left_u[i].y && coneD.z == bishopCircle_left_u[i].z) {
-                    movechs(bishopCircle_left_u[i].y, bishopCircle_left_u[i].z);
+                    movechs(bishopCircle_left_u[i].y, bishopCircle_left_u[i].z); turn = 0;
                     break;
                 }
                 else if (coneD.y == bishopCircle_left_d[i].y && coneD.z == bishopCircle_left_d[i].z) {
-                    movechs(bishopCircle_left_d[i].y, bishopCircle_left_d[i].z);
+                    movechs(bishopCircle_left_d[i].y, bishopCircle_left_d[i].z); turn = 0;
                     break;
                 }
                 else if (coneD.y == bishopCircle_right_u[i].y && coneD.z == bishopCircle_right_u[i].z) {
-                    movechs(bishopCircle_right_u[i].y, bishopCircle_right_u[i].z);
+                    movechs(bishopCircle_right_u[i].y, bishopCircle_right_u[i].z); turn = 0;
                     break;
                 }
                 else if (coneD.y == bishopCircle_right_d[i].y && coneD.z == bishopCircle_right_d[i].z) {
-                    movechs(bishopCircle_right_d[i].y, bishopCircle_right_d[i].z);
+                    movechs(bishopCircle_right_d[i].y, bishopCircle_right_d[i].z); turn = 0;
                     break;
                 }
                 else if (i == 7) {
@@ -797,19 +796,19 @@ void chessman_move(int temp) {
         else if (temp == 21 || temp == 22) { // ·è
             for (int i = 0; i < 8; i++) {
                 if (coneD.y == rookCircle_front[i].y && coneD.z == rookCircle_front[i].z) {
-                    movechs(rookCircle_front[i].y, rookCircle_front[i].z);
+                    movechs(rookCircle_front[i].y, rookCircle_front[i].z); turn = 0;
                     break;
                 }
                 else if (coneD.y == rookCircle_right[i].y && coneD.z == rookCircle_right[i].z) {
-                    movechs(rookCircle_right[i].y, rookCircle_right[i].z);
+                    movechs(rookCircle_right[i].y, rookCircle_right[i].z); turn = 0;
                     break;
                 }
                 else if (coneD.y == rookCircle_left[i].y && coneD.z == rookCircle_left[i].z) {
-                    movechs(rookCircle_left[i].y, rookCircle_left[i].z);
+                    movechs(rookCircle_left[i].y, rookCircle_left[i].z); turn = 0;
                     break;
                 }
                 else if (coneD.y == rookCircle_behind[i].y && coneD.z == rookCircle_behind[i].z) {
-                    movechs(rookCircle_behind[i].y, rookCircle_behind[i].z);
+                    movechs(rookCircle_behind[i].y, rookCircle_behind[i].z); turn = 0;
                     break;
                 }
                 else if (i == 7) {
@@ -822,25 +821,25 @@ void chessman_move(int temp) {
                 movechs(knightCircle_front_l.y, knightCircle_front_l.z);
             }
             else if (coneD.y == knightCircle_front_r.y && coneD.z == knightCircle_front_r.z) {
-                movechs(knightCircle_front_r.y, knightCircle_front_r.z);
+                movechs(knightCircle_front_r.y, knightCircle_front_r.z); turn = 0;
             }
             else if (coneD.y == knightCircle_left_u.y && coneD.z == knightCircle_left_u.z) {
-                movechs(knightCircle_left_u.y, knightCircle_left_u.z);
+                movechs(knightCircle_left_u.y, knightCircle_left_u.z); turn = 0;
             }
             else if (coneD.y == knightCircle_left_d.y && coneD.z == knightCircle_left_d.z) {
-                movechs(knightCircle_left_d.y, knightCircle_left_d.z);
+                movechs(knightCircle_left_d.y, knightCircle_left_d.z); turn = 0;
             }
             else if (coneD.y == knightCircle_right_u.y && coneD.z == knightCircle_right_u.z) {
-                movechs(knightCircle_right_u.y, knightCircle_right_u.z);
+                movechs(knightCircle_right_u.y, knightCircle_right_u.z); turn = 0;
             }
             else if (coneD.y == knightCircle_right_d.y && coneD.z == knightCircle_right_d.z) {
-                movechs(knightCircle_right_d.y, knightCircle_right_d.z);
-            }
+                movechs(knightCircle_right_d.y, knightCircle_right_d.z); turn = 0;
+            } 
             else if (coneD.y == knightCircle_behind_r.y && coneD.z == knightCircle_behind_r.z) {
-                movechs(knightCircle_behind_r.y, knightCircle_behind_r.z);
+                movechs(knightCircle_behind_r.y, knightCircle_behind_r.z); turn = 0;
             }
             else if (coneD.y == knightCircle_behind_l.y && coneD.z == knightCircle_behind_l.z) {
-                movechs(knightCircle_behind_l.y, knightCircle_behind_l.z);
+                movechs(knightCircle_behind_l.y, knightCircle_behind_l.z); turn = 0;
             }
             else {
                 movechs(knightD[temp % 23].y, knightD[temp % 24].z);
@@ -848,26 +847,25 @@ void chessman_move(int temp) {
         }
         else if (temp >= 25 && temp <= 32) {
             if (coneD.y == pawnCircle_front[0].y && coneD.z == pawnCircle_front[0].z) {
-                movechs(pawnCircle_front[0].y, pawnCircle_front[0].z);
+                movechs(pawnCircle_front[0].y, pawnCircle_front[0].z); turn = 0;
                 pawn_moved_B[temp % 25]++;
             }
             else if (coneD.y == pawnCircle_front[1].y && coneD.z == pawnCircle_front[1].z && pawn_moved_B[pawnchk] == 0) {
-                movechs(pawnCircle_front[1].y, pawnCircle_front[1].z);
+                movechs(pawnCircle_front[1].y, pawnCircle_front[1].z); turn = 0;
                 pawn_moved_B[temp % 25]++;
             }
             else if (coneD.y == pawnCircle_left.y && coneD.z == pawnCircle_left.z) {
-                movechs(pawnCircle_left.y, pawnCircle_left.z);
+                movechs(pawnCircle_left.y, pawnCircle_left.z); turn = 0;
                 pawn_moved_B[temp % 25]++;
             }
             else if (coneD.y == pawnCircle_right.y && coneD.z == pawnCircle_right.z) {
-                movechs(pawnCircle_right.y, pawnCircle_right.z);
+                movechs(pawnCircle_right.y, pawnCircle_right.z); turn = 0;
                 pawn_moved_B[temp % 25]++;
             }
             else {
-                movechs(pawnD[temp % 25].y, pawnD[temp % 25].z);
+                movechs(pawnD[temp % 25].y, pawnD[temp % 25].z); 
             }
         }
-        turn = 0;
     }
 }
 
