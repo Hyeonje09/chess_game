@@ -339,7 +339,7 @@ void chessman(CModel m) {
 
 void cone() {
     if (turn == 0) {
-        currentMaterials = &redPlasticMaterials;  
+        currentMaterials = &redPlasticMaterials;
     }
     else {
         currentMaterials = &bluePlasticMaterials;
@@ -473,7 +473,7 @@ struct coordinate pawnD[8] = {
 
 struct coordinate kingCircle_front, kingCircle_behind, kingCircle_left, kingCircle_right, kingCircle_left_u, kingCircle_left_d, kingCircle_right_u, kingCircle_right_d;
 struct coordinate rookCircle_front[8], rookCircle_right[8], rookCircle_left[8], rookCircle_behind[8];
-struct coordinate pawnCircle_front[2], pawnCircle_right, pawnCircle_left;
+struct coordinate pawnCircle_front[2], pawnCircle_right, pawnCircle_left, pawnCircle_front_r, pawnCircle_front_l;
 struct coordinate queenCircle_front[8], queenCircle_right[8], queenCircle_left[8], queenCircle_behind[8], queenCircle_left_u[8], queenCircle_left_d[8], queenCircle_right_u[8], queenCircle_right_d[8];
 struct coordinate bishopCircle_left_u[8], bishopCircle_left_d[8], bishopCircle_right_u[8], bishopCircle_right_d[8];
 struct coordinate knightCircle_front_l, knightCircle_front_r, knightCircle_left_u, knightCircle_left_d, knightCircle_right_u, knightCircle_right_d, knightCircle_behind_r, knightCircle_behind_l;
@@ -558,7 +558,7 @@ void movechs(float y, float z) {
             rookD[0].y = 100;
             rookD[0].z = 100;
         }
-        
+
         else if (y == rookD[1].y && z == rookD[1].z) {
             rookD[1].y = 100;
             rookD[1].z = 100;
@@ -838,8 +838,8 @@ void chessman_move(int temp) {
         }
         else if (temp >= 9 && temp <= 16) {
             if (coneC.y == pawnCircle_front[0].y && coneC.z == pawnCircle_front[0].z) {
-                 movechs(pawnCircle_front[0].y, pawnCircle_front[0].z); turn = 1;
-                 pawn_moved_W[temp % 9]++;
+                movechs(pawnCircle_front[0].y, pawnCircle_front[0].z); turn = 1;
+                pawn_moved_W[temp % 9]++;
             }
             else if (coneC.y == pawnCircle_front[1].y && coneC.z == pawnCircle_front[1].z && pawn_moved_W[pawnchk] == 0) {
                 movechs(pawnCircle_front[1].y, pawnCircle_front[1].z); turn = 1;
@@ -851,7 +851,15 @@ void chessman_move(int temp) {
             }
             else if (coneC.y == pawnCircle_right.y && coneC.z == pawnCircle_right.z) {
                 movechs(pawnCircle_right.y, pawnCircle_right.z); turn = 1;
-                pawn_moved_W[temp % 9]++; 
+                pawn_moved_W[temp % 9]++;
+            }
+            else if (coneC.y == pawnCircle_front_l.y && coneC.z == pawnCircle_front_l.z) {
+                movechs(pawnCircle_front_l.y, pawnCircle_front_l.z); turn = 1;
+                pawn_moved_W[temp % 9]++;
+            }
+            else if (coneC.y == pawnCircle_front_r.y && coneC.z == pawnCircle_front_r.z) {
+                movechs(pawnCircle_front_r.y, pawnCircle_front_r.z); turn = 1;
+                pawn_moved_W[temp % 9]++;
             }
             else {
                 movechs(pawnC[temp % 9].y, pawnC[temp % 9].z);
@@ -880,7 +888,7 @@ void chessman_move(int temp) {
             }
             else if (coneD.y == kingCircle_left_u.y && coneD.z == kingCircle_left_u.z) {
                 movechs(kingCircle_left_u.y, kingCircle_left_u.z); turn = 0;
-            } 
+            }
             else if (coneD.y == kingCircle_left_d.y && coneD.z == kingCircle_left_d.z) {
                 movechs(kingCircle_left_d.y, kingCircle_left_d.z); turn = 0;
             }
@@ -991,7 +999,7 @@ void chessman_move(int temp) {
             }
             else if (coneD.y == knightCircle_right_d.y && coneD.z == knightCircle_right_d.z) {
                 movechs(knightCircle_right_d.y, knightCircle_right_d.z); turn = 0;
-            } 
+            }
             else if (coneD.y == knightCircle_behind_r.y && coneD.z == knightCircle_behind_r.z) {
                 movechs(knightCircle_behind_r.y, knightCircle_behind_r.z); turn = 0;
             }
@@ -1019,8 +1027,16 @@ void chessman_move(int temp) {
                 movechs(pawnCircle_right.y, pawnCircle_right.z); turn = 0;
                 pawn_moved_B[temp % 25]++;
             }
+            else if (coneD.y == pawnCircle_front_l.y && coneD.z == pawnCircle_front_l.z) {
+                movechs(pawnCircle_front_l.y, pawnCircle_front_l.z); turn = 0;
+                pawn_moved_B[temp % 25]++;
+            }
+            else if (coneD.y == pawnCircle_front_r.y && coneD.z == pawnCircle_front_r.z) {
+                movechs(pawnCircle_front_r.y, pawnCircle_front_r.z); turn = 0;
+                pawn_moved_B[temp % 25]++;
+            }
             else {
-                movechs(pawnD[temp % 25].y, pawnD[temp % 25].z); 
+                movechs(pawnD[temp % 25].y, pawnD[temp % 25].z);
             }
         }
     }
@@ -3658,6 +3674,14 @@ void move_Pawn_Circle_W(int x) {
     pawnCircle_right.y = pawnC[x].y + a;
     pawnCircle_right.z = pawnC[x].z;
 
+    pawnCircle_front_l.x = a;
+    pawnCircle_front_l.y = pawnC[x].y - a;
+    pawnCircle_front_l.z = pawnC[x].z + a;
+
+    pawnCircle_front_r.x = a;
+    pawnCircle_front_r.y = pawnC[x].y + a;
+    pawnCircle_front_r.z = pawnC[x].z + a;
+
     if (pawnCircle_right.y == pawnC[0].y && pawnCircle_right.z == pawnC[0].z) {
         pawnCircle_right.y = 100;
         pawnCircle_right.z = 100;
@@ -3719,6 +3743,70 @@ void move_Pawn_Circle_W(int x) {
         pawnCircle_right.z = 100;
     }
     else if (pawnCircle_right.y == kingC.y && pawnCircle_right.z == kingC.z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == pawnD[0].y && pawnCircle_right.z == pawnD[0].z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if ((pawnCircle_right.y == pawnD[1].y && pawnCircle_right.z == pawnD[1].z)) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == pawnD[2].y && pawnCircle_right.z == pawnD[2].z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == pawnD[3].y && pawnCircle_right.z == pawnD[3].z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == pawnD[4].y && pawnCircle_right.z == pawnD[4].z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == pawnD[5].y && pawnCircle_right.z == pawnD[5].z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == pawnD[6].y && pawnCircle_right.z == pawnD[6].z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == pawnD[7].y && pawnCircle_right.z == pawnD[7].z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == knightD[0].y && pawnCircle_right.z == knightD[0].z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == knightD[1].y && pawnCircle_right.z == knightD[1].z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == bishopD[0].y && pawnCircle_right.z == bishopD[0].z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == bishopD[1].y && pawnCircle_right.z == bishopD[1].z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == rookD[0].y && pawnCircle_right.z == rookD[0].z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == rookD[1].y && pawnCircle_right.z == rookD[1].z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == queenD.y && pawnCircle_right.z == queenD.z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == kingD.y && pawnCircle_right.z == kingD.z) {
         pawnCircle_right.y = 100;
         pawnCircle_right.z = 100;
     }
@@ -3792,6 +3880,70 @@ void move_Pawn_Circle_W(int x) {
         pawnCircle_left.z = 100;
     }
     else if (pawnCircle_left.y == kingC.y && pawnCircle_left.z == kingC.z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == pawnD[0].y && pawnCircle_left.z == pawnD[0].z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if ((pawnCircle_left.y == pawnD[1].y && pawnCircle_left.z == pawnD[1].z)) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == pawnD[2].y && pawnCircle_left.z == pawnD[2].z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == pawnD[3].y && pawnCircle_left.z == pawnD[3].z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == pawnD[4].y && pawnCircle_left.z == pawnD[4].z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == pawnD[5].y && pawnCircle_left.z == pawnD[5].z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == pawnD[6].y && pawnCircle_left.z == pawnD[6].z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == pawnD[7].y && pawnCircle_left.z == pawnD[7].z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == knightD[0].y && pawnCircle_left.z == knightD[0].z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == knightD[1].y && pawnCircle_left.z == knightD[1].z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == bishopD[0].y && pawnCircle_left.z == bishopD[0].z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == bishopD[1].y && pawnCircle_left.z == bishopD[1].z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == rookD[0].y && pawnCircle_left.z == rookD[0].z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == rookD[1].y && pawnCircle_left.z == rookD[1].z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == queenD.y && pawnCircle_left.z == queenD.z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == kingD.y && pawnCircle_left.z == kingD.z) {
         pawnCircle_left.y = 100;
         pawnCircle_left.z = 100;
     }
@@ -3869,6 +4021,70 @@ void move_Pawn_Circle_W(int x) {
         pawnCircle_front[0].y = 100;
         pawnCircle_front[0].z = 100;
     }
+    else if (pawnCircle_front[0].y == pawnD[0].y && pawnCircle_front[0].z == pawnD[0].z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if ((pawnCircle_front[0].y == pawnD[1].y && pawnCircle_front[0].z == pawnD[1].z)) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == pawnD[2].y && pawnCircle_front[0].z == pawnD[2].z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == pawnD[3].y && pawnCircle_front[0].z == pawnD[3].z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == pawnD[4].y && pawnCircle_front[0].z == pawnD[4].z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == pawnD[5].y && pawnCircle_front[0].z == pawnD[5].z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == pawnD[6].y && pawnCircle_front[0].z == pawnD[6].z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == pawnD[7].y && pawnCircle_front[0].z == pawnD[7].z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == knightD[0].y && pawnCircle_front[0].z == knightD[0].z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == knightD[1].y && pawnCircle_front[0].z == knightD[1].z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == bishopD[0].y && pawnCircle_front[0].z == bishopD[0].z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == bishopD[1].y && pawnCircle_front[0].z == bishopD[1].z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == rookD[0].y && pawnCircle_front[0].z == rookD[0].z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == rookD[1].y && pawnCircle_front[0].z == rookD[1].z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == queenD.y && pawnCircle_front[0].z == queenD.z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == kingD.y && pawnCircle_front[0].z == kingD.z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
     else {
         if (pawnC[x].z + a <= 2) {
             glPushMatrix();
@@ -3877,7 +4093,7 @@ void move_Pawn_Circle_W(int x) {
             glPopMatrix();
 
             if (pawn_moved_W[x] == 0) {
-                if (pawnCircle_front[1].y == pawnC[1].y && pawnCircle_front[1].z == pawnC[1].z) {
+                if (pawnCircle_front[1].y == pawnC[0].y && pawnCircle_front[1].z == pawnC[0].z) {
                     pawnCircle_front[1].y = 100;
                     pawnCircle_front[1].z = 100;
                 }
@@ -3909,7 +4125,7 @@ void move_Pawn_Circle_W(int x) {
                     pawnCircle_front[1].y = 100;
                     pawnCircle_front[1].z = 100;
                 }
-                else if (pawnCircle_front[1].y == knightC[1].y && pawnCircle_front[1].z == knightC[1].z) {
+                else if (pawnCircle_front[1].y == knightC[0].y && pawnCircle_front[1].z == knightC[0].z) {
                     pawnCircle_front[1].y = 100;
                     pawnCircle_front[1].z = 100;
                 }
@@ -3917,7 +4133,7 @@ void move_Pawn_Circle_W(int x) {
                     pawnCircle_front[1].y = 100;
                     pawnCircle_front[1].z = 100;
                 }
-                else if (pawnCircle_front[1].y == bishopC[1].y && pawnCircle_front[1].z == bishopC[1].z) {
+                else if (pawnCircle_front[1].y == bishopC[0].y && pawnCircle_front[1].z == bishopC[0].z) {
                     pawnCircle_front[1].y = 100;
                     pawnCircle_front[1].z = 100;
                 }
@@ -3925,7 +4141,7 @@ void move_Pawn_Circle_W(int x) {
                     pawnCircle_front[1].y = 100;
                     pawnCircle_front[1].z = 100;
                 }
-                else if (pawnCircle_front[1].y == rookC[1].y && pawnCircle_front[1].z == rookC[1].z) {
+                else if (pawnCircle_front[1].y == rookC[0].y && pawnCircle_front[1].z == rookC[0].z) {
                     pawnCircle_front[1].y = 100;
                     pawnCircle_front[1].z = 100;
                 }
@@ -3941,6 +4157,70 @@ void move_Pawn_Circle_W(int x) {
                     pawnCircle_front[1].y = 100;
                     pawnCircle_front[1].z = 100;
                 }
+                else if (pawnCircle_front[1].y == pawnD[0].y && pawnCircle_front[1].z == pawnD[0].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == pawnD[1].y && pawnCircle_front[1].z == pawnD[1].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == pawnD[2].y && pawnCircle_front[1].z == pawnD[2].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == pawnD[3].y && pawnCircle_front[1].z == pawnD[3].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == pawnD[4].y && pawnCircle_front[1].z == pawnD[4].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == pawnD[5].y && pawnCircle_front[1].z == pawnD[5].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == pawnD[6].y && pawnCircle_front[1].z == pawnD[6].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == pawnD[7].y && pawnCircle_front[1].z == pawnD[7].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == knightD[0].y && pawnCircle_front[1].z == knightD[0].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == knightD[1].y && pawnCircle_front[1].z == knightD[1].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == bishopD[0].y && pawnCircle_front[1].z == bishopD[0].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == bishopD[1].y && pawnCircle_front[1].z == bishopD[1].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == rookD[0].y && pawnCircle_front[1].z == rookD[0].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == rookD[1].y && pawnCircle_front[1].z == rookD[1].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == queenD.y && pawnCircle_front[1].z == queenD.z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == kingD.y && pawnCircle_front[1].z == kingD.z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
                 else {
                     glPushMatrix();
                     glTranslatef(pawnCircle_front[1].x, pawnCircle_front[1].y, pawnCircle_front[1].z);
@@ -3949,6 +4229,272 @@ void move_Pawn_Circle_W(int x) {
                 }
             }
         }
+    }
+
+    if (pawnCircle_front_l.y == pawnD[0].y && pawnCircle_front_l.z == pawnD[0].z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if ((pawnCircle_front_l.y == pawnD[1].y && pawnCircle_front_l.z == pawnD[1].z)) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == pawnD[2].y && pawnCircle_front_l.z == pawnD[2].z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == pawnD[3].y && pawnCircle_front_l.z == pawnD[3].z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == pawnD[4].y && pawnCircle_front_l.z == pawnD[4].z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == pawnD[5].y && pawnCircle_front_l.z == pawnD[5].z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == pawnD[6].y && pawnCircle_front_l.z == pawnD[6].z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == pawnD[7].y && pawnCircle_front_l.z == pawnD[7].z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == knightD[0].y && pawnCircle_front_l.z == knightD[0].z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == knightD[1].y && pawnCircle_front_l.z == knightD[1].z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == bishopD[0].y && pawnCircle_front_l.z == bishopD[0].z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == bishopD[1].y && pawnCircle_front_l.z == bishopD[1].z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == rookD[0].y && pawnCircle_front_l.z == rookD[0].z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == rookD[1].y && pawnCircle_front_l.z == rookD[1].z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == queenD.y && pawnCircle_front_l.z == queenD.z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == kingD.y && pawnCircle_front_l.z == kingD.z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else {
+        pawnCircle_front_l.y = 100;
+        pawnCircle_front_l.z = 100;
+    }
+
+    if (pawnCircle_front_r.y == pawnD[0].y && pawnCircle_front_r.z == pawnD[0].z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if ((pawnCircle_front_r.y == pawnD[1].y && pawnCircle_front_r.z == pawnD[1].z)) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == pawnD[2].y && pawnCircle_front_r.z == pawnD[2].z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == pawnD[3].y && pawnCircle_front_r.z == pawnD[3].z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == pawnD[4].y && pawnCircle_front_r.z == pawnD[4].z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == pawnD[5].y && pawnCircle_front_r.z == pawnD[5].z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == pawnD[6].y && pawnCircle_front_r.z == pawnD[6].z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == pawnD[7].y && pawnCircle_front_r.z == pawnD[7].z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == knightD[0].y && pawnCircle_front_r.z == knightD[0].z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == knightD[1].y && pawnCircle_front_r.z == knightD[1].z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == bishopD[0].y && pawnCircle_front_r.z == bishopD[0].z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == bishopD[1].y && pawnCircle_front_r.z == bishopD[1].z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == rookD[0].y && pawnCircle_front_r.z == rookD[0].z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == rookD[1].y && pawnCircle_front_r.z == rookD[1].z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == queenD.y && pawnCircle_front_r.z == queenD.z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == kingD.y && pawnCircle_front_r.z == kingD.z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else {
+        pawnCircle_front_r.y = 100;
+        pawnCircle_front_r.z = 100;
     }
 }
 
@@ -6585,6 +7131,14 @@ void move_Pawn_Circle_B(int x) {
     pawnCircle_right.y = pawnD[x].y + a;
     pawnCircle_right.z = pawnD[x].z;
 
+    pawnCircle_front_l.x = a;
+    pawnCircle_front_l.y = pawnD[x].y - a;
+    pawnCircle_front_l.z = pawnD[x].z - a;
+
+    pawnCircle_front_r.x = a;
+    pawnCircle_front_r.y = pawnD[x].y + a;
+    pawnCircle_front_r.z = pawnD[x].z - a;
+
     if (pawnCircle_right.y == pawnD[0].y && pawnCircle_right.z == pawnD[0].z) {
         pawnCircle_right.y = 100;
         pawnCircle_right.z = 100;
@@ -6646,6 +7200,70 @@ void move_Pawn_Circle_B(int x) {
         pawnCircle_right.z = 100;
     }
     else if (pawnCircle_right.y == kingD.y && pawnCircle_right.z == kingD.z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == pawnC[0].y && pawnCircle_right.z == pawnC[0].z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if ((pawnCircle_right.y == pawnC[1].y && pawnCircle_right.z == pawnC[1].z)) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == pawnC[2].y && pawnCircle_right.z == pawnC[2].z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == pawnC[3].y && pawnCircle_right.z == pawnC[3].z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == pawnC[4].y && pawnCircle_right.z == pawnC[4].z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == pawnC[5].y && pawnCircle_right.z == pawnC[5].z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == pawnC[6].y && pawnCircle_right.z == pawnC[6].z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == pawnC[7].y && pawnCircle_right.z == pawnC[7].z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == knightC[0].y && pawnCircle_right.z == knightC[0].z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == knightC[1].y && pawnCircle_right.z == knightC[1].z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == bishopC[0].y && pawnCircle_right.z == bishopC[0].z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == bishopC[1].y && pawnCircle_right.z == bishopC[1].z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == rookC[0].y && pawnCircle_right.z == rookC[0].z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == rookC[1].y && pawnCircle_right.z == rookC[1].z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == queenC.y && pawnCircle_right.z == queenC.z) {
+        pawnCircle_right.y = 100;
+        pawnCircle_right.z = 100;
+    }
+    else if (pawnCircle_right.y == kingC.y && pawnCircle_right.z == kingC.z) {
         pawnCircle_right.y = 100;
         pawnCircle_right.z = 100;
     }
@@ -6722,6 +7340,70 @@ void move_Pawn_Circle_B(int x) {
         pawnCircle_left.y = 100;
         pawnCircle_left.z = 100;
     }
+    else if (pawnCircle_left.y == pawnC[0].y && pawnCircle_left.z == pawnC[0].z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if ((pawnCircle_left.y == pawnC[1].y && pawnCircle_left.z == pawnC[1].z)) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == pawnC[2].y && pawnCircle_left.z == pawnC[2].z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == pawnC[3].y && pawnCircle_left.z == pawnC[3].z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == pawnC[4].y && pawnCircle_left.z == pawnC[4].z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == pawnC[5].y && pawnCircle_left.z == pawnC[5].z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == pawnC[6].y && pawnCircle_left.z == pawnC[6].z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == pawnC[7].y && pawnCircle_left.z == pawnC[7].z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == knightC[0].y && pawnCircle_left.z == knightC[0].z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == knightC[1].y && pawnCircle_left.z == knightC[1].z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == bishopC[0].y && pawnCircle_left.z == bishopC[0].z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == bishopC[1].y && pawnCircle_left.z == bishopC[1].z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == rookC[0].y && pawnCircle_left.z == rookC[0].z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == rookC[1].y && pawnCircle_left.z == rookC[1].z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == queenC.y && pawnCircle_left.z == queenC.z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
+    else if (pawnCircle_left.y == kingC.y && pawnCircle_left.z == kingC.z) {
+        pawnCircle_left.y = 100;
+        pawnCircle_left.z = 100;
+    }
     else {
         if (pawnD[x].y - a >= -2) {
             glPushMatrix();
@@ -6795,6 +7477,70 @@ void move_Pawn_Circle_B(int x) {
         pawnCircle_front[0].y = 100;
         pawnCircle_front[0].z = 100;
     }
+    else if (pawnCircle_front[0].y == pawnC[0].y && pawnCircle_front[0].z == pawnC[0].z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if ((pawnCircle_front[0].y == pawnC[1].y && pawnCircle_front[0].z == pawnC[1].z)) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == pawnC[2].y && pawnCircle_front[0].z == pawnC[2].z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == pawnC[3].y && pawnCircle_front[0].z == pawnC[3].z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == pawnC[4].y && pawnCircle_front[0].z == pawnC[4].z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == pawnC[5].y && pawnCircle_front[0].z == pawnC[5].z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == pawnC[6].y && pawnCircle_front[0].z == pawnC[6].z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == pawnC[7].y && pawnCircle_front[0].z == pawnC[7].z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == knightC[0].y && pawnCircle_front[0].z == knightC[0].z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == knightC[1].y && pawnCircle_front[0].z == knightC[1].z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == bishopC[0].y && pawnCircle_front[0].z == bishopC[0].z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == bishopC[1].y && pawnCircle_front[0].z == bishopC[1].z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == rookC[0].y && pawnCircle_front[0].z == rookC[0].z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == rookC[1].y && pawnCircle_front[0].z == rookC[1].z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == queenC.y && pawnCircle_front[0].z == queenC.z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
+    else if (pawnCircle_front[0].y == kingC.y && pawnCircle_front[0].z == kingC.z) {
+        pawnCircle_front[0].y = 100;
+        pawnCircle_front[0].z = 100;
+    }
     else {
         if (pawnD[x].z + a <= 2) {
             glPushMatrix();
@@ -6802,7 +7548,7 @@ void move_Pawn_Circle_B(int x) {
             draw_move_Circle();
             glPopMatrix();
             if (pawn_moved_B[x] == 0) {
-                if (pawnCircle_front[1].y == pawnD[1].y && pawnCircle_front[1].z == pawnD[1].z) {
+                if (pawnCircle_front[1].y == pawnD[0].y && pawnCircle_front[1].z == pawnD[0].z) {
                     pawnCircle_front[1].y = 100;
                     pawnCircle_front[1].z = 100;
                 }
@@ -6834,7 +7580,7 @@ void move_Pawn_Circle_B(int x) {
                     pawnCircle_front[1].y = 100;
                     pawnCircle_front[1].z = 100;
                 }
-                else if (pawnCircle_front[1].y == knightD[1].y && pawnCircle_front[1].z == knightD[1].z) {
+                else if (pawnCircle_front[1].y == knightD[0].y && pawnCircle_front[1].z == knightD[0].z) {
                     pawnCircle_front[1].y = 100;
                     pawnCircle_front[1].z = 100;
                 }
@@ -6842,7 +7588,7 @@ void move_Pawn_Circle_B(int x) {
                     pawnCircle_front[1].y = 100;
                     pawnCircle_front[1].z = 100;
                 }
-                else if (pawnCircle_front[1].y == bishopD[1].y && pawnCircle_front[1].z == bishopD[1].z) {
+                else if (pawnCircle_front[1].y == bishopD[0].y && pawnCircle_front[1].z == bishopD[0].z) {
                     pawnCircle_front[1].y = 100;
                     pawnCircle_front[1].z = 100;
                 }
@@ -6850,7 +7596,7 @@ void move_Pawn_Circle_B(int x) {
                     pawnCircle_front[1].y = 100;
                     pawnCircle_front[1].z = 100;
                 }
-                else if (pawnCircle_front[1].y == rookD[1].y && pawnCircle_front[1].z == rookD[1].z) {
+                else if (pawnCircle_front[1].y == rookD[0].y && pawnCircle_front[1].z == rookD[0].z) {
                     pawnCircle_front[1].y = 100;
                     pawnCircle_front[1].z = 100;
                 }
@@ -6866,6 +7612,70 @@ void move_Pawn_Circle_B(int x) {
                     pawnCircle_front[1].y = 100;
                     pawnCircle_front[1].z = 100;
                 }
+                else if (pawnCircle_front[1].y == pawnC[0].y && pawnCircle_front[1].z == pawnC[0].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if ((pawnCircle_front[1].y == pawnC[1].y && pawnCircle_front[1].z == pawnC[1].z)) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == pawnC[2].y && pawnCircle_front[1].z == pawnC[2].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == pawnC[3].y && pawnCircle_front[1].z == pawnC[3].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == pawnC[4].y && pawnCircle_front[1].z == pawnC[4].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == pawnC[5].y && pawnCircle_front[1].z == pawnC[5].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == pawnC[6].y && pawnCircle_front[1].z == pawnC[6].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == pawnC[7].y && pawnCircle_front[1].z == pawnC[7].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == knightC[0].y && pawnCircle_front[1].z == knightC[0].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == knightC[1].y && pawnCircle_front[1].z == knightC[1].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == bishopC[0].y && pawnCircle_front[1].z == bishopC[0].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == bishopC[1].y && pawnCircle_front[1].z == bishopC[1].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == rookC[0].y && pawnCircle_front[1].z == rookC[0].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == rookC[1].y && pawnCircle_front[1].z == rookC[1].z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == queenC.y && pawnCircle_front[1].z == queenC.z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
+                else if (pawnCircle_front[1].y == kingC.y && pawnCircle_front[1].z == kingC.z) {
+                    pawnCircle_front[1].y = 100;
+                    pawnCircle_front[1].z = 100;
+                }
                 else {
                     glPushMatrix();
                     glTranslatef(pawnCircle_front[1].x, pawnCircle_front[1].y, pawnCircle_front[1].z);
@@ -6874,6 +7684,274 @@ void move_Pawn_Circle_B(int x) {
                 }
             }
         }
+    }
+
+
+
+    if (pawnCircle_front_r.y == pawnC[0].y && pawnCircle_front_r.z == pawnC[0].z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if ((pawnCircle_front_r.y == pawnC[1].y && pawnCircle_front_r.z == pawnC[1].z)) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == pawnC[2].y && pawnCircle_front_r.z == pawnC[2].z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == pawnC[3].y && pawnCircle_front_r.z == pawnC[3].z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == pawnC[4].y && pawnCircle_front_r.z == pawnC[4].z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == pawnC[5].y && pawnCircle_front_r.z == pawnC[5].z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == pawnC[6].y && pawnCircle_front_r.z == pawnC[6].z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == pawnC[7].y && pawnCircle_front_r.z == pawnC[7].z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == knightC[0].y && pawnCircle_front_r.z == knightC[0].z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == knightC[1].y && pawnCircle_front_r.z == knightC[1].z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == bishopC[0].y && pawnCircle_front_r.z == bishopC[0].z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == bishopC[1].y && pawnCircle_front_r.z == bishopC[1].z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == rookC[0].y && pawnCircle_front_r.z == rookC[0].z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == rookC[1].y && pawnCircle_front_r.z == rookC[1].z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == queenC.y && pawnCircle_front_r.z == queenC.z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_r.y == kingC.y && pawnCircle_front_r.z == kingC.z) {
+        if (pawnCircle_front_r.y <= 1.5 && pawnCircle_front_r.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_r.x, pawnCircle_front_r.y, pawnCircle_front_r.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else {
+        pawnCircle_front_r.y = 100;
+        pawnCircle_front_r.z = 100;
+    }
+
+    if (pawnCircle_front_l.y == pawnC[0].y && pawnCircle_front_l.z == pawnC[0].z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if ((pawnCircle_front_l.y == pawnC[1].y && pawnCircle_front_l.z == pawnC[1].z)) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == pawnC[2].y && pawnCircle_front_l.z == pawnC[2].z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == pawnC[3].y && pawnCircle_front_l.z == pawnC[3].z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == pawnC[4].y && pawnCircle_front_l.z == pawnC[4].z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == pawnC[5].y && pawnCircle_front_l.z == pawnC[5].z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == pawnC[6].y && pawnCircle_front_l.z == pawnC[6].z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == pawnC[7].y && pawnCircle_front_l.z == pawnC[7].z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == knightC[0].y && pawnCircle_front_l.z == knightC[0].z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == knightC[1].y && pawnCircle_front_l.z == knightC[1].z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == bishopC[0].y && pawnCircle_front_l.z == bishopC[0].z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == bishopC[1].y && pawnCircle_front_l.z == bishopC[1].z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == rookC[0].y && pawnCircle_front_l.z == rookC[0].z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == rookC[1].y && pawnCircle_front_l.z == rookC[1].z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == queenC.y && pawnCircle_front_l.z == queenC.z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else if (pawnCircle_front_l.y == kingC.y && pawnCircle_front_l.z == kingC.z) {
+        if (pawnCircle_front_l.y >= -2 && pawnCircle_front_l.z <= 2) {
+            glPushMatrix();
+            glTranslatef(pawnCircle_front_l.x, pawnCircle_front_l.y, pawnCircle_front_l.z);
+            draw_move_Circle();
+            glPopMatrix();
+        }
+    }
+    else {
+        pawnCircle_front_l.y = 100;
+        pawnCircle_front_l.z = 100;
     }
 }
 
@@ -7606,6 +8684,273 @@ void MyKey(unsigned char key, int x, int y) {
                 coneD.y += 0.5;
             }
         }
+        break;
+    }
+    case 32: {
+        if (moving() == 1) {
+            kingC.x = 0.5;
+            temp = 1;
+        }
+        else if (moving() == 2) {
+            queenC.x = 0.5;
+            temp = 2;
+        }
+        else if (moving() == 3) {
+            bishopC[0].x = 0.5;
+            temp = 3;
+        }
+        else if (moving() == 4) {
+            bishopC[1].x = 0.5;
+            temp = 4;
+        }
+        else if (moving() == 5) {
+            rookC[0].x = 0.5;
+            temp = 5;
+        }
+        else if (moving() == 6) {
+            rookC[1].x = 0.5;
+            temp = 6;
+        }
+        else if (moving() == 7) {
+            knightC[0].x = 0.5;
+            temp = 7;
+        }
+        else if (moving() == 8) {
+            knightC[1].x = 0.5;
+            temp = 8;
+        }
+        else if (moving() == 9) {
+            pawnC[0].x = 0.5;
+            temp = 9;
+        }
+        else if (moving() == 10) {
+            pawnC[1].x = 0.5;
+            temp = 10;
+        }
+        else if (moving() == 11) {
+            pawnC[2].x = 0.5;
+            temp = 11;
+        }
+        else if (moving() == 12) {
+            pawnC[3].x = 0.5;
+            temp = 12;
+        }
+        else if (moving() == 13) {
+            pawnC[4].x = 0.5;
+            temp = 13;
+        }
+        else if (moving() == 14) {
+            pawnC[5].x = 0.5;
+            temp = 14;
+        }
+        else if (moving() == 15) {
+            pawnC[6].x = 0.5;
+            temp = 15;
+        }
+        else if (moving() == 16) {
+            pawnC[7].x = 0.5;
+            temp = 16;
+        }
+
+        else if (moving() == 17) {
+            kingD.x = 0.5;
+            temp = 17;
+        }
+        else if (moving() == 18) {
+            queenD.x = 0.5;
+            temp = 18;
+        }
+        else if (moving() == 19) {
+            bishopD[0].x = 0.5;
+            temp = 19;
+        }
+        else if (moving() == 20) {
+            bishopD[1].x = 0.5;
+            temp = 20;
+        }
+        else if (moving() == 21) {
+            rookD[0].x = 0.5;
+            temp = 21;
+        }
+        else if (moving() == 22) {
+            rookD[1].x = 0.5;
+            temp = 22;
+        }
+        else if (moving() == 23) {
+            knightD[0].x = 0.5;
+            temp = 23;
+        }
+        else if (moving() == 24) {
+            knightD[1].x = 0.5;
+            temp = 24;
+        }
+        else if (moving() == 25) {
+            pawnD[0].x = 0.5;
+            temp = 25;
+        }
+        else if (moving() == 26) {
+            pawnD[1].x = 0.5;
+            temp = 26;
+        }
+        else if (moving() == 27) {
+            pawnD[2].x = 0.5;
+            temp = 27;
+        }
+        else if (moving() == 28) {
+            pawnD[3].x = 0.5;
+            temp = 28;
+        }
+        else if (moving() == 29) {
+            pawnD[4].x = 0.5;
+            temp = 29;
+        }
+        else if (moving() == 30) {
+            pawnD[5].x = 0.5;
+            temp = 30;
+        }
+        else if (moving() == 31) {
+            pawnD[6].x = 0.5;
+            temp = 31;
+        }
+        else if (moving() == 32) {
+            pawnD[7].x = 0.5;
+            temp = 32;
+        }
+        break;
+    }
+    case 13: {
+        if (temp == 1) {
+            chessman_move(temp);
+            kingC.x = 0.25;
+            kingC.y = coneC.y;
+            kingC.z = coneC.z;
+            temp = 0;
+        }
+        else if (temp == 2) {
+            chessman_move(temp);
+            queenC.x = 0.25;
+            queenC.y = coneC.y;
+            queenC.z = coneC.z;
+            temp = 0;
+        }
+        else if (temp == 3) {
+            chessman_move(temp);
+            bishopC[0].x = 0.25;
+            bishopC[0].y = coneC.y;
+            bishopC[0].z = coneC.z;
+            temp = 0;
+        }
+        else if (temp == 4) {
+            chessman_move(temp);
+            bishopC[1].x = 0.25;
+            bishopC[1].y = coneC.y;
+            bishopC[1].z = coneC.y;
+            temp = 0;
+        }
+        else if (temp == 5) {
+            chessman_move(temp);
+            rookC[0].x = 0.25;
+            rookC[0].y = coneC.y;
+            rookC[0].z = coneC.z;
+            temp = 0;
+        }
+        else if (temp == 6) {
+            chessman_move(temp);
+            rookC[1].x = 0.25;
+            rookC[1].y = coneC.y;
+            rookC[1].z = coneC.z;
+            temp = 0;
+        }
+        else if (temp == 7) {
+            chessman_move(temp);
+            knightC[0].x = 0.25;
+            knightC[0].y = coneC.y;
+            knightC[0].z = coneC.z;
+            temp = 0;
+        }
+        else if (temp == 8) {
+            chessman_move(temp);
+            knightC[1].x = 0.25;
+            knightC[1].y = coneC.y;
+            knightC[1].z = coneC.z;
+            temp = 0;
+        }
+        else if (temp >= 9 && temp <= 16) {
+            chessman_move(temp);
+            pawnC[temp % 9].x = 0.25;
+            pawnC[temp % 9].y = coneC.y;
+            pawnC[temp % 9].z = coneC.z;
+            temp = 0;
+        }
+
+        else if (temp == 17) {
+            chessman_move(temp);
+            kingD.x = 0.25;
+            kingD.y = coneD.y;
+            kingD.z = coneD.z;
+            temp = 0;
+        }
+        else if (temp == 18) {
+            chessman_move(temp);
+            queenD.x = 0.25;
+            queenD.y = coneD.y;
+            queenD.z = coneD.z;
+            temp = 0;
+        }
+        else if (temp == 19) {
+            chessman_move(temp);
+            bishopD[0].x = 0.25;
+            bishopD[0].y = coneD.y;
+            bishopD[0].z = coneD.z;
+            temp = 0;
+        }
+        else if (temp == 20) {
+            chessman_move(temp);
+            bishopD[1].x = 0.25;
+            bishopD[1].y = coneD.y;
+            bishopD[1].z = coneD.y;
+            temp = 0;
+        }
+        else if (temp == 21) {
+            chessman_move(temp);
+            rookD[0].x = 0.25;
+            rookD[0].y = coneD.y;
+            rookD[0].z = coneD.z;
+            temp = 0;
+        }
+        else if (temp == 22) {
+            chessman_move(temp);
+            rookD[1].x = 0.25;
+            rookD[1].y = coneD.y;
+            rookD[1].z = coneD.z;
+            temp = 0;
+        }
+        else if (temp == 23) {
+            chessman_move(temp);
+            knightD[0].x = 0.25;
+            knightD[0].y = coneD.y;
+            knightD[0].z = coneD.z;
+            temp = 0;
+        }
+        else if (temp == 24) {
+            chessman_move(temp);
+            knightD[1].x = 0.25;
+            knightD[1].y = coneD.y;
+            knightD[1].z = coneD.z;
+            temp = 0;
+        }
+        else if (temp >= 25 && temp <= 32) {
+            chessman_move(temp);
+            pawnD[temp % 25].x = 0.25;
+            pawnD[temp % 25].y = coneD.y;
+            pawnD[temp % 25].z = coneD.z;
+            temp = 0;
+        }
+
+        break;
+    }
+    case 27: {
+        exit(1);
         break;
     }
 
